@@ -3,5 +3,9 @@ module com.example.projekt {
     requires javafx.fxml;
 
     opens com.example.projekt to javafx.fxml;
-    exports com.example.projekt;
+    exports com.example.projekt.service;
+    exports com.example.projekt.run;
+    opens com.example.projekt.run to javafx.fxml;
+    exports com.example.projekt.controller;
+    opens com.example.projekt.controller to javafx.fxml;
 }
