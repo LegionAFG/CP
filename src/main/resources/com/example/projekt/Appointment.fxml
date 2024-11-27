@@ -12,13 +12,13 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projekt.controller.AppointmentController">
     <left>
         <AnchorPane prefHeight="530.0" prefWidth="168.0" style="-fx-background-color: #3b5998;" BorderPane.alignment="CENTER">
             <children>
                 <VBox layoutX="9.0" layoutY="14.0" prefHeight="579.0" prefWidth="150.0">
                     <children>
-                        <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="151.0" style="-fx-background-color: #8b9dc3;" text="BACK" textFill="#f7f7f7">
+                        <Button fx:id="backButton" mnemonicParsing="false" onAction="#onBackButtonClick" prefHeight="30.0" prefWidth="151.0" style="-fx-background-color: #8b9dc3;" text="BACK" textFill="#f7f7f7">
                             <font>
                                 <Font name="System Bold" size="17.0" />
                             </font>
@@ -26,7 +26,7 @@
                                 <Insets bottom="10.0" />
                             </VBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="151.0" style="-fx-background-color: #8b9dc3;" text="HOME" textFill="#f7f7f7">
+                        <Button fx:id="homeButton" mnemonicParsing="false" onAction="#onHomeButtonClick" prefHeight="30.0" prefWidth="151.0" style="-fx-background-color: #8b9dc3;" text="HOME" textFill="#f7f7f7">
                             <font>
                                 <Font name="System Bold" size="17.0" />
                             </font>

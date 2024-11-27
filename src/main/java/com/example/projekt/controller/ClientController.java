@@ -44,23 +44,23 @@ public class ClientController {
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         navigateService.navigate(stage, "appointment");
-        logger.log(Level.INFO, "Home seite geladen");
+        logger.log(Level.INFO, "Appointment seite geladen");
     }
 
     @FXML
     public void onFileButtonClick(ActionEvent event) throws IOException {
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        navigateService.navigate(stage, "home");
-        logger.log(Level.INFO, "Home seite geladen");
+        navigateService.navigate(stage, "file");
+        logger.log(Level.INFO, "File seite geladen");
     }
 
     @FXML
     public void onHistoriesButtonClick(ActionEvent event) throws IOException {
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        navigateService.navigate(stage, "home");
-        logger.log(Level.INFO, "Home seite geladen");
+        navigateService.navigate(stage, "histories");
+        logger.log(Level.INFO, "Histories seite geladen");
     }
 
 }
