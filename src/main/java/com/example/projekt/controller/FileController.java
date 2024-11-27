@@ -1,5 +1,6 @@
 package com.example.projekt.controller;
 
+
 import com.example.projekt.service.NavigateService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,13 +12,13 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class AppointmentController {
+public class FileController {
 
-    private final Logger logger = Logger.getLogger(AppointmentController.class.getName());
+    private final Logger logger = Logger.getLogger(FileController.class.getName());
 
     NavigateService navigateService;
 
-    public AppointmentController() {
+    public FileController(){
         this.navigateService = new NavigateService();
     }
 
@@ -28,18 +29,15 @@ public class AppointmentController {
 
     @FXML
     public void onBackButtonClick(ActionEvent event)throws IOException {
-
-    Stage stage =  (Stage) ((Node) event.getSource()).getScene().getWindow();
-    navigateService.navigate(stage,"client");
-    logger.log(Level.INFO, "Home seite geladen");
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        navigateService.navigate(stage,"client");
+        logger.log(Level.INFO,"Client seite geladen");
     }
 
     @FXML
     public void onHomeButtonClick(ActionEvent event)throws IOException {
-
-        Stage stage =  (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         navigateService.navigate(stage,"home");
-        logger.log(Level.INFO, "Home seite geladen");
+        logger.log(Level.INFO,"Home seite geladen");
     }
-
 }
