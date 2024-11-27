@@ -29,6 +29,6 @@ public class HomeController {
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         navigateService.navigate(stage, "client");
-        logger.log(Level.INFO, "Klienten seite geladen");
+        logger.log(Level.INFO, "Client seite geladen");
     }
 }

@@ -31,7 +31,7 @@ public class AppointmentController {
 
     Stage stage =  (Stage) ((Node) event.getSource()).getScene().getWindow();
     navigateService.navigate(stage,"client");
-    logger.log(Level.INFO, "Home seite geladen");
+    logger.log(Level.INFO, "Client seite geladen");
     }
 
     @FXML
