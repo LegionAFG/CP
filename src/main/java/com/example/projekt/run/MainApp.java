@@ -16,7 +16,7 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-       navigateService.navigate(stage, "file");
+       navigateService.navigate(stage, "home");
     }
 
     public static void main(String[] args) {
