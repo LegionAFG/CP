@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+    <left>
+        <AnchorPane prefHeight="530.0" prefWidth="168.0" style="-fx-background-color: #3b5998;" BorderPane.alignment="CENTER">
+            <children>
+                <VBox layoutX="9.0" layoutY="14.0" prefHeight="579.0" prefWidth="150.0">
+                    <children>
+                        <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="151.0" style="-fx-background-color: #8b9dc3;" text="BACK" textFill="#f7f7f7">
+                            <font>
+                                <Font name="System Bold" size="17.0" />
+                            </font>
+                            <VBox.margin>
+                                <Insets bottom="10.0" />
+                            </VBox.margin>
+                        </Button>
+                        <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="151.0" style="-fx-background-color: #8b9dc3;" text="HOME" textFill="#f7f7f7">
+                            <font>
+                                <Font name="System Bold" size="17.0" />
+                            </font>
+                            <VBox.margin>
+                                <Insets bottom="10.0" />
+                            </VBox.margin>
+                        </Button>
+                        <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="151.0" style="-fx-background-color: #740001;" text="DELETE" textFill="#f7f7f7">
+                            <font>
+                                <Font name="System Bold" size="17.0" />
+                            </font>
+                            <VBox.margin>
+                                <Insets bottom="10.0" />
+                            </VBox.margin>
+                        </Button>
+                        <TextField prefHeight="30.0" prefWidth="151.0" promptText="File name...">
+                            <font>
+                                <Font name="System Bold" size="17.0" />
+                            </font>
+                            <VBox.margin>
+                                <Insets bottom="10.0" />
+                            </VBox.margin>
+                        </TextField>
+                        <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="151.0" style="-fx-background-color: #d3a625;" text="SAVE" textFill="#f7f7f7">
+                            <font>
+                                <Font name="System Bold" size="17.0" />
+                            </font>
+                            <VBox.margin>
+                                <Insets bottom="10.0" />
+                            </VBox.margin>
+                        </Button>
+                    </children>
+                </VBox>
+            </children>
+        </AnchorPane>
+    </left>
+    <center>
+        <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #dfe3ee;" BorderPane.alignment="CENTER">
+            <children>
+                <TableView layoutX="5.0" layoutY="29.0" prefHeight="564.0" prefWidth="622.0">
+                    <columns>
+                        <TableColumn prefWidth="503.9998779296875" text="File name" />
+                        <TableColumn prefWidth="114.4000244140625" text="File Typ" />
+                    </columns>
+                </TableView>
+                <Text fill="#3b5998" layoutX="14.0" layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Files">
+                    <font>
+                        <Font name="System Bold" size="18.0" />
+                    </font>
+                </Text>
+            </children>
+        </AnchorPane>
+    </center>
+</BorderPane>
