@@ -28,7 +28,7 @@ public class ClientController {
     public void onHomeButtonClick(ActionEvent event){
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        navigateService.navigate(stage, "x");
+        navigateService.navigate(stage, "home");
 
     }
 
