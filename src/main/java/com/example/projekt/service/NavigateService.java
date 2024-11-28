@@ -2,7 +2,6 @@ package com.example.projekt.service;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -11,6 +10,12 @@ import java.util.logging.Logger;
 public class NavigateService {
 
     private static final Logger logger = Logger.getLogger(NavigateService.class.getName());
+
+    ErrorDialog errorDialog;
+
+    public NavigateService(){
+        this.errorDialog = new ErrorDialog();
+    }
 
     private static final String HOME = "/com/example/projekt/Home.fxml";
     private static final String FILE = "/com/example/projekt/File.fxml";
@@ -40,20 +45,12 @@ public class NavigateService {
         } catch (IllegalArgumentException e) {
 
             logger.severe("Navigation fehlgeschlagen: " + e.getMessage());
-            showErrorDialog("Navigation fehlgeschlagen", e.getMessage());
+            errorDialog.showErrorDialog("Navigation fehlgeschlagen", e.getMessage());
         } catch (IOException e) {
 
             logger.severe("Fehler beim Laden der Seite: " + e.getMessage());
-            showErrorDialog("Seitenladefehler", "Die Seite konnte nicht geladen werden.");
+            errorDialog.showErrorDialog("Seitenladefehler", "Die Seite konnte nicht geladen werden.");
         }
 
-    }
-
-    private void showErrorDialog(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
     }
 }
