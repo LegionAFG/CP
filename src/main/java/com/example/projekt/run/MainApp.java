@@ -4,8 +4,6 @@ import com.example.projekt.service.NavigateService;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-
 public class MainApp extends Application {
 
     NavigateService navigateService;
@@ -15,7 +13,7 @@ public class MainApp extends Application {
     }
 
     @Override
-    public void start(Stage stage) throws IOException {
+    public void start(Stage stage){
        navigateService.navigate(stage, "home");
     }
 

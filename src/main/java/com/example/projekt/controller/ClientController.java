@@ -7,14 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 public class ClientController {
-
-
-    private final Logger logger = Logger.getLogger(ClientController.class.getName());
 
     NavigateService navigateService;
 
@@ -32,35 +25,35 @@ public class ClientController {
     Button historiesButton;
 
     @FXML
-    public void onHomeButtonClick(ActionEvent event) throws IOException {
+    public void onHomeButtonClick(ActionEvent event){
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        navigateService.navigate(stage, "home");
-        logger.log(Level.INFO, "Home seite geladen");
+        navigateService.navigate(stage, "x");
+
     }
 
     @FXML
-    public void onAppointmentButtonClick(ActionEvent event) throws IOException {
+    public void onAppointmentButtonClick(ActionEvent event){
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         navigateService.navigate(stage, "appointment");
-        logger.log(Level.INFO, "Appointment seite geladen");
+
     }
 
     @FXML
-    public void onFileButtonClick(ActionEvent event) throws IOException {
+    public void onFileButtonClick(ActionEvent event){
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         navigateService.navigate(stage, "file");
-        logger.log(Level.INFO, "File seite geladen");
+
     }
 
     @FXML
-    public void onHistoriesButtonClick(ActionEvent event) throws IOException {
+    public void onHistoriesButtonClick(ActionEvent event){
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         navigateService.navigate(stage, "histories");
-        logger.log(Level.INFO, "Histories seite geladen");
+
     }
 
 }
