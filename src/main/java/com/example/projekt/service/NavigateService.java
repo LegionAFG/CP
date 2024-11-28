@@ -35,6 +35,7 @@ public class NavigateService {
             stage.setTitle("Case Pilot");
             stage.setScene(scene);
             stage.show();
+            stage.setResizable(false);
 
         } catch (IllegalArgumentException e) {
 
