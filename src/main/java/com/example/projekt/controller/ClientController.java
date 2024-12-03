@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class ClientController {
@@ -23,6 +24,9 @@ public class ClientController {
     Button fileButton;
     @FXML
     Button historiesButton;
+    @FXML
+    TextField clientID,firstname,lastname,dateOfBirth,gender,nationality,relationship;
+
 
     @FXML
     public void onHomeButtonClick(ActionEvent event){

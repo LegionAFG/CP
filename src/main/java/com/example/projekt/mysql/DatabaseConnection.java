@@ -1,4 +1,4 @@
-package com.example.projekt.mySQL;
+package com.example.projekt.mysql;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,10 +10,10 @@ public class DatabaseConnection {
     private Connection connection;
     private static final Logger logger = Logger.getLogger(DatabaseConnection.class.getName());
 
-    public void connectToDatabase() {
+    public Connection connectToDatabase() {
         if (connection != null) {
             logger.warning("Die Datenbankverbindung besteht bereits.");
-            return;
+            return connection;
         }
 
         String dbUrl = System.getenv("DB_URL");
@@ -29,8 +29,9 @@ public class DatabaseConnection {
             logger.info("Verbindung zur Datenbank erfolgreich hergestellt!");
         } catch (SQLException e) {
             logger.severe("Fehler bei der Verbindung: " + e.getMessage());
-            throw new RuntimeException("Datenbankverbindung fehlgeschlagen!", e);
+            connection = null;
         }
+        return connection;
     }
 
     public void close() {
@@ -46,6 +47,8 @@ public class DatabaseConnection {
             }
         } catch (SQLException e) {
             logger.severe("Fehler beim Schließen der Verbindung: " + e.getMessage());
+        } finally {
+            connection = null;
         }
     }
 }
