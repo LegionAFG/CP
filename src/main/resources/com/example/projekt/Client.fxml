@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -41,14 +42,11 @@
                         <Insets bottom="10.0" />
                      </VBox.margin>
                   </TextField>
-                  <TextField fx:id="dateOfBirth" promptText="Date">
-                     <font>
-                        <Font size="17.0" />
-                     </font>
+                  <DatePicker fx:id="dateOfBirth" style="-fx-font-size: 17;">
                      <VBox.margin>
                         <Insets bottom="10.0" />
                      </VBox.margin>
-                  </TextField>
+                  </DatePicker>
                   <TextField fx:id="gender" promptText="Gender">
                      <font>
                         <Font size="17.0" />
@@ -73,6 +71,14 @@
                         <Insets bottom="10.0" />
                      </VBox.margin>
                   </TextField>
+                  <Button fx:id="saveButton" mnemonicParsing="false" onAction="#addClientButton" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #8b9dc3;" text="SAVE" textFill="#f7f7f7">
+                     <font>
+                        <Font name="System Bold" size="17.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </Button>
                         <Button fx:id="appointmentButton" mnemonicParsing="false" onAction="#onAppointmentButtonClick" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #8b9dc3;" text="APPOINTMENT" textFill="#f7f7f7">
                             <font>
                                 <Font name="System Bold" size="17.0" />
