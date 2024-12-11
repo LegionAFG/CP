@@ -47,8 +47,8 @@
                     <columns>
                         <TableColumn prefWidth="75.0" text="IFA" />
                         <TableColumn prefWidth="75.0" text="Lastname" />
-                        <TableColumn prefWidth="75.0" text="Firstname" />
-                        <TableColumn prefWidth="156.800048828125" text="Institution" />
+                        <TableColumn prefWidth="86.4000244140625" text="Firstname" />
+                        <TableColumn prefWidth="146.39996337890625" text="Institution" />
                         <TableColumn prefWidth="73.5999755859375" text="Date" />
                         <TableColumn prefWidth="68.0001220703125" text="Time" />
                         <TableColumn prefWidth="77.5999755859375" text="Priority" />

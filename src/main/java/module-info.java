@@ -3,6 +3,7 @@ module com.example.projekt {
     requires javafx.fxml;
     requires java.logging;
     requires java.sql;
+    requires mysql.connector.j;
 
     opens com.example.projekt to javafx.fxml;
     exports com.example.projekt.service;

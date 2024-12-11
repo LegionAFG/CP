@@ -5,7 +5,11 @@ import com.example.projekt.service.NavigateService;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
+import java.util.logging.Logger;
+
 public class MainApp extends Application {
+
+    Logger logger = Logger.getLogger(MainApp.class.getName());
 
     private final NavigateService navigateService;
     private final DatabaseConnection databaseConnection;
@@ -23,7 +27,7 @@ public class MainApp extends Application {
 
             navigateService.navigate(stage, "home");
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.severe("Home seite konnte nicht geladen werden");
         }
     }
 

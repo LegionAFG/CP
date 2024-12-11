@@ -20,6 +20,13 @@ public class DatabaseConnection {
         String dbUser = System.getenv("DB_USER");
         String dbPassword = System.getenv("DB_PASSWORD");
 
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            logger.info("MySQL-Treiber erfolgreich geladen.");
+        } catch (ClassNotFoundException e) {
+            logger.severe("MySQL-Treiber konnte nicht geladen werden: " + e.getMessage());
+        }
+
         if (dbUrl == null || dbUrl.isEmpty()) {
             throw new IllegalArgumentException("Die Umgebungsvariable DB_URL ist nicht gesetzt oder leer.");
         }
