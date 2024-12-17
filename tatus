@@ -1,0 +1,101 @@
+[33mcommit f192a31a2b423d3d7d25e462eebae9196e3241e5[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m
+Author: LegionAFG <badr.said.emil@hotmail.com>
+Date:   Thu Nov 28 16:11:23 2024 +0100
+
+    add Database connection
+
+[33mcommit 6f0cad71a73efd31b4425c0e651371633b096342[m
+Author: LegionAFG <badr.said.emil@hotmail.com>
+Date:   Thu Nov 28 10:48:39 2024 +0100
+
+    update .gitattributes
+
+[33mcommit 35fc15cb8f917db415e6ae67e84e12712487b277[m
+Author: BADR Emil <150303030+LegionAFG@users.noreply.github.com>
+Date:   Thu Nov 28 10:31:11 2024 +0100
+
+    Update .gitattributes
+
+[33mcommit f39890c52881c04bfba89e447f5bceba04d796a1[m
+Author: LegionAFG <badr.said.emil@hotmail.com>
+Date:   Thu Nov 28 10:30:10 2024 +0100
+
+    Fix line endings with .gitattributes
+
+[33mcommit be6ed457429168bc65e26c052b3763b94ccbfe3d[m
+Author: LegionAFG <badr.said.emil@hotmail.com>
+Date:   Thu Nov 28 10:18:08 2024 +0100
+
+    Error handling moved to navigation
+
+[33mcommit 376dcbde1f73577ef4f38c141d18fd13aaef857b[m
+Author: LegionAFG <badr.said.emil@hotmail.com>
+Date:   Thu Nov 28 08:52:45 2024 +0100
+
+    add .gitattributes
+
+[33mcommit 44924f7af85f9af017afaa286b9739163525fa8f[m
+Author: LegionAFG <badr.said.emil@hotmail.com>
+Date:   Thu Nov 28 08:50:03 2024 +0100
+
+    Maven Error Handling and add .gitattributes
+
+[33mcommit 62fb239772ffb901fe8c633cc391869b5ac5327b[m
+Author: LegionAFG <badr.said.emil@hotmail.com>
+Date:   Thu Nov 28 08:04:55 2024 +0100
+
+    upadete NavigateService
+
+[33mcommit ea285361b82fc11cf1700541f23648e068367638[m
+Author: LegionAFG <badr.said.emil@hotmail.com>
+Date:   Wed Nov 27 22:55:40 2024 +0100
+
+    Handling Dublicate Profile ID Error in JavaFX
+
+[33mcommit 5244b290ca8e175137962b76074209864865b947[m
+Author: LegionAFG <badr.said.emil@hotmail.com>
+Date:   Wed Nov 27 21:50:01 2024 +0100
+
+    add navigation button action to HistoriesController
+
+[33mcommit e45bb77616f5f149563bd12f81549f0bbcdb18ec[m
+Author: LegionAFG <badr.said.emil@hotmail.com>
+Date:   Wed Nov 27 21:35:30 2024 +0100
+
+    navigation button actions to FileController
+
+[33mcommit b88653792565505fc728ea32d339b68488a28f9b[m
+Author: LegionAFG <badr.said.emil@hotmail.com>
+Date:   Wed Nov 27 21:21:59 2024 +0100
+
+    add navigation button actions to AppointmentController
+
+[33mcommit e7a316bca5029cff4faa7c2940b4df626ca4e011[m
+Author: LegionAFG <badr.said.emil@hotmail.com>
+Date:   Wed Nov 27 21:03:40 2024 +0100
+
+    add navigation button actions to ClientController
+
+[33mcommit 714fb670f679e8cb08eccc33f4de72777e6ae51b[m
+Author: LegionAFG <badr.said.emil@hotmail.com>
+Date:   Wed Nov 27 20:28:40 2024 +0100
+
+    set Client Button on Action
+
+[33mcommit 94c1dfff8a591e55905237510e2e827961bf308e[m
+Author: LegionAFG <badr.said.emil@hotmail.com>
+Date:   Wed Nov 27 19:47:37 2024 +0100
+
+    add  navigate Method
+
+[33mcommit 0e3b9530f7ebd4a0703cef98115852647a291b5a[m
+Author: LegionAFG <badr.said.emil@hotmail.com>
+Date:   Wed Nov 27 18:45:58 2024 +0100
+
+    add FXML
+
+[33mcommit d49019b99e51642e43c8d1d93d94bc0f484674fc[m
+Author: LegionAFG <badr.said.emil@hotmail.com>
+Date:   Wed Nov 27 18:38:01 2024 +0100
+
+    Initialer Commit

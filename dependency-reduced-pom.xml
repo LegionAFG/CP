@@ -43,11 +43,20 @@
               <goal>shade</goal>
             </goals>
             <configuration>
+              <shadedArtifactAttached>true</shadedArtifactAttached>
+              <shadedClassifierName>shaded</shadedClassifierName>
+              <transformers>
+                <transformer>
+                  <mainClass>com.example.projekt.run.MainApp</mainClass>
+                </transformer>
+              </transformers>
               <filters>
                 <filter>
                   <artifact>*:*</artifact>
                   <excludes>
+                    <exclude>META-INF/MANIFEST.MF</exclude>
                     <exclude>module-info.class</exclude>
+                    <exclude>META-INF/substrate/config/*</exclude>
                   </excludes>
                 </filter>
               </filters>

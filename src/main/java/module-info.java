@@ -4,6 +4,8 @@ module com.example.projekt {
     requires java.logging;
     requires java.sql;
 
+
+
     opens com.example.projekt to javafx.fxml;
     exports com.example.projekt.service;
     exports com.example.projekt.run;

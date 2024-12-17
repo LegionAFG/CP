@@ -7,30 +7,36 @@ import java.util.logging.Logger;
 
 public class DatabaseConnection {
 
+
     private Connection connection;
     private static final Logger logger = Logger.getLogger(DatabaseConnection.class.getName());
 
-    public void connectToDatabase() {
+
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/casepilotsystem?useSSL=false";
+    private static final String DB_USER = "root";
+    private static final String DB_PASSWORD = "docker2023";
+
+    public Connection connectToDatabase() {
         if (connection != null) {
             logger.warning("Die Datenbankverbindung besteht bereits.");
-            return;
-        }
-
-        String dbUrl = System.getenv("DB_URL");
-        String dbUser = System.getenv("DB_USER");
-        String dbPassword = System.getenv("DB_PASSWORD");
-
-        if (dbUrl == null || dbUrl.isEmpty()) {
-            throw new IllegalArgumentException("Die Umgebungsvariable DB_URL ist nicht gesetzt oder leer.");
+            return connection;
         }
 
         try {
-            connection = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            logger.info("MySQL-Treiber erfolgreich geladen.");
+
+
+            connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
             logger.info("Verbindung zur Datenbank erfolgreich hergestellt!");
+        } catch (ClassNotFoundException e) {
+            logger.severe("MySQL-Treiber konnte nicht geladen werden: " + e.getMessage());
         } catch (SQLException e) {
             logger.severe("Fehler bei der Verbindung: " + e.getMessage());
-            throw new RuntimeException("Datenbankverbindung fehlgeschlagen!", e);
+            connection = null;
         }
+        return connection;
     }
 
     public void close() {
@@ -46,6 +52,8 @@ public class DatabaseConnection {
             }
         } catch (SQLException e) {
             logger.severe("Fehler beim Schließen der Verbindung: " + e.getMessage());
+        } finally {
+            connection = null;
         }
     }
 }
