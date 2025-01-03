@@ -35,14 +35,6 @@
                                 <Insets bottom="10.0" />
                             </VBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="151.0" style="-fx-background-color: #740001;" text="DELETE" textFill="#f7f7f7">
-                            <font>
-                                <Font name="System Bold" size="17.0" />
-                            </font>
-                            <VBox.margin>
-                                <Insets bottom="10.0" />
-                            </VBox.margin>
-                        </Button>
                         <TextField prefHeight="30.0" prefWidth="151.0" promptText="Titel...">
                             <font>
                                 <Font name="System Bold" size="17.0" />
@@ -73,6 +65,14 @@
                             </VBox.margin>
                         </Button>
                         <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="151.0" style="-fx-background-color: #8b9dc3;" text="UPDATE" textFill="#f7f7f7">
+                            <font>
+                                <Font name="System Bold" size="17.0" />
+                            </font>
+                            <VBox.margin>
+                                <Insets bottom="10.0" />
+                            </VBox.margin>
+                        </Button>
+                        <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="151.0" style="-fx-background-color: #740001;" text="DELETE" textFill="#f7f7f7">
                             <font>
                                 <Font name="System Bold" size="17.0" />
                             </font>

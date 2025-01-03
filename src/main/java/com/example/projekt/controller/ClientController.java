@@ -7,9 +7,12 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
+
+
 public class ClientController {
 
     NavigateService navigateService;
+
 
     public ClientController() {
         this.navigateService = new NavigateService();
@@ -25,15 +28,15 @@ public class ClientController {
     Button historiesButton;
 
     @FXML
-    public void onHomeButtonClick(ActionEvent event){
+    public void onHomeButtonClick(ActionEvent event) {
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        navigateService.navigate(stage, "x");
+        navigateService.navigate(stage, "home");
 
     }
 
     @FXML
-    public void onAppointmentButtonClick(ActionEvent event){
+    public void onAppointmentButtonClick(ActionEvent event) {
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         navigateService.navigate(stage, "appointment");
@@ -41,7 +44,7 @@ public class ClientController {
     }
 
     @FXML
-    public void onFileButtonClick(ActionEvent event){
+    public void onFileButtonClick(ActionEvent event) {
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         navigateService.navigate(stage, "file");
@@ -49,11 +52,11 @@ public class ClientController {
     }
 
     @FXML
-    public void onHistoriesButtonClick(ActionEvent event){
+    public void onHistoriesButtonClick(ActionEvent event) {
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         navigateService.navigate(stage, "histories");
 
     }
-
 }
+

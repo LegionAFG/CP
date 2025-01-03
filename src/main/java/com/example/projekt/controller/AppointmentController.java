@@ -12,6 +12,7 @@ public class AppointmentController {
     NavigateService navigateService;
 
     public AppointmentController() {
+
         this.navigateService = new NavigateService();
     }
 

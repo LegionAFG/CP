@@ -16,7 +16,7 @@
     <left>
         <AnchorPane prefHeight="530.0" prefWidth="168.0" style="-fx-background-color: #3b5998;" BorderPane.alignment="CENTER">
             <children>
-                <VBox layoutX="9.0" layoutY="14.0" prefHeight="579.0" prefWidth="150.0">
+                <VBox layoutX="9.0" layoutY="21.0" prefHeight="522.0" prefWidth="150.0">
                     <children>
                         <Button fx:id="backButton" mnemonicParsing="false" onAction="#onBackButtonClick" prefHeight="30.0" prefWidth="151.0" style="-fx-background-color: #8b9dc3;" text="BACK" textFill="#f7f7f7">
                             <font>
@@ -27,14 +27,6 @@
                             </VBox.margin>
                         </Button>
                         <Button fx:id="homeButton" mnemonicParsing="false" onAction="#onHomeButtonClick" prefHeight="30.0" prefWidth="151.0" style="-fx-background-color: #8b9dc3;" text="HOME" textFill="#f7f7f7">
-                            <font>
-                                <Font name="System Bold" size="17.0" />
-                            </font>
-                            <VBox.margin>
-                                <Insets bottom="10.0" />
-                            </VBox.margin>
-                        </Button>
-                        <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="151.0" style="-fx-background-color: #740001;" text="DELETE" textFill="#f7f7f7">
                             <font>
                                 <Font name="System Bold" size="17.0" />
                             </font>
@@ -96,6 +88,22 @@
                             </VBox.margin>
                         </Button>
                         <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="151.0" style="-fx-background-color: #8b9dc3;" text="UPDATE" textFill="#f7f7f7">
+                            <font>
+                                <Font name="System Bold" size="17.0" />
+                            </font>
+                            <VBox.margin>
+                                <Insets bottom="10.0" />
+                            </VBox.margin>
+                        </Button>
+                  <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="151.0" style="-fx-background-color: #008080;" text="DONE" textFill="#f7f7f7">
+                     <font>
+                        <Font name="System Bold" size="17.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </Button>
+                        <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="151.0" style="-fx-background-color: #740001;" text="DELETE" textFill="#f7f7f7">
                             <font>
                                 <Font name="System Bold" size="17.0" />
                             </font>

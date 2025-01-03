@@ -1,4 +1,4 @@
-package com.example.projekt.mySQL;
+package com.example.projekt.sql;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -12,14 +12,19 @@ public class DatabaseConnection {
     private static final Logger logger = Logger.getLogger(DatabaseConnection.class.getName());
 
 
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/casepilotsystem?useSSL=false";
+    private static final String DB_URL =
+            "jdbc:mysql://localhost:3306/casepilotsystem" +
+                    "?useSSL=false" +
+                    "&allowPublicKeyRetrieval=true" +
+                    "&serverTimezone=UTC";
+
     private static final String DB_USER = "root";
     private static final String DB_PASSWORD = "docker2023";
 
-    public Connection connectToDatabase() {
+    public void connectToDatabase() {
         if (connection != null) {
             logger.warning("Die Datenbankverbindung besteht bereits.");
-            return connection;
+            return;
         }
 
         try {
@@ -36,7 +41,10 @@ public class DatabaseConnection {
             logger.severe("Fehler bei der Verbindung: " + e.getMessage());
             connection = null;
         }
-        return connection;
+    }
+
+    public Connection getConnection() {
+        return this.connection;
     }
 
     public void close() {
