@@ -17,13 +17,13 @@
     <left>
         <AnchorPane prefHeight="530.0" prefWidth="168.0" style="-fx-background-color: #3b5998;" BorderPane.alignment="CENTER">
             <children>
-                <VBox layoutX="9.0" layoutY="13.0" prefHeight="546.0" prefWidth="150.0">
+                <VBox alignment="CENTER" layoutX="9.0" layoutY="13.0" prefHeight="546.0" prefWidth="150.0">
                     <children>
-                  <TextField fx:id="txtClientID" prefHeight="144.0" prefWidth="150.0" promptText="ClientID...">
+                  <TextField fx:id="clientID" prefHeight="144.0" prefWidth="150.0" promptText="ClientID...">
                      <font>
                         <Font size="15.0" />
                      </font></TextField>
-                  <TextField fx:id="txtLastname" prefHeight="144.0" prefWidth="150.0" promptText="Lastname...">
+                  <TextField fx:id="lastname" prefHeight="144.0" prefWidth="150.0" promptText="Lastname...">
                      <VBox.margin>
                         <Insets bottom="10.0" top="10.0" />
                      </VBox.margin>
@@ -31,7 +31,7 @@
                         <Font size="15.0" />
                      </font>
                   </TextField>
-                  <TextField fx:id="txtFirstname" prefHeight="144.0" prefWidth="150.0" promptText="Firstname...">
+                  <TextField fx:id="firstname" prefHeight="144.0" prefWidth="150.0" promptText="Firstname...">
                      <VBox.margin>
                         <Insets bottom="10.0" />
                      </VBox.margin>
@@ -39,17 +39,17 @@
                         <Font size="15.0" />
                      </font>
                   </TextField>
-                  <DatePicker fx:id="datePickerBirth" prefHeight="144.0" prefWidth="150.0" style="-fx-font-size: 15;">
+                  <DatePicker fx:id="date" prefHeight="144.0" prefWidth="150.0" style="-fx-font-size: 15;">
                      <VBox.margin>
                         <Insets bottom="10.0" />
                      </VBox.margin>
                   </DatePicker>
-                  <ChoiceBox fx:id="checkGender" prefHeight="144.0" prefWidth="150.0" style="-fx-font-size: 15;">
+                  <ChoiceBox fx:id="gender" prefHeight="30" prefWidth="150.0" style="-fx-font-size: 15;">
                      <VBox.margin>
                         <Insets bottom="10.0" />
                      </VBox.margin>
                   </ChoiceBox>
-                  <TextField fx:id="txtNationality" prefHeight="144.0" prefWidth="150.0" promptText="Nationality...">
+                  <TextField fx:id="nationality" prefHeight="144.0" prefWidth="150.0" promptText="Nationality...">
 
                      <VBox.margin>
                         <Insets bottom="10.0" />
@@ -58,12 +58,12 @@
                         <Font size="15.0" />
                      </font>
                   </TextField>
-                  <ChoiceBox fx:id="checkRelationship" prefHeight="144.0" prefWidth="150.0" style="-fx-font-size: 15;">
+                  <ChoiceBox fx:id="relationship" prefHeight="30" prefWidth="150.0" style="-fx-font-size: 15;">
                      <VBox.margin>
                         <Insets bottom="10.0" />
                      </VBox.margin>
                   </ChoiceBox>
-                  <Button fx:id="btnSave" mnemonicParsing="false" onAction="#onSaveClicked" prefHeight="30.0" prefWidth="151.0" style="-fx-background-color: #daa520;" text="SAVE" textFill="#f7f7f7">
+                  <Button fx:id="saveButton" mnemonicParsing="false" onAction="#onSaveButtonClick" prefHeight="30.0" prefWidth="151.0" style="-fx-background-color: #daa520;" text="SAVE" textFill="#f7f7f7">
                      <font>
                         <Font name="System Bold" size="17.0" />
                      </font>
