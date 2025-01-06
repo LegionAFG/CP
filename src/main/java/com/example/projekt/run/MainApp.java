@@ -2,7 +2,6 @@ package com.example.projekt.run;
 
 import com.example.projekt.sql.DatabaseConnection;
 import com.example.projekt.service.NavigateService;
-import com.example.projekt.sql.FileCRUD;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -10,7 +9,7 @@ public class MainApp extends Application {
 
     NavigateService navigateService;
     DatabaseConnection databaseConnection = new DatabaseConnection();
-    FileCRUD fileCRUD;
+
 
 
     public MainApp() {

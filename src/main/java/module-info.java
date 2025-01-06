@@ -12,4 +12,5 @@ module com.example.projekt {
     opens com.example.projekt.run to javafx.fxml;
     exports com.example.projekt.controller;
     opens com.example.projekt.controller to javafx.fxml;
+    opens com.example.projekt.model to javafx.base;
 }

@@ -14,7 +14,7 @@ public class HistoriesCRUD {
         this.connection = dbConnection.getConnection();
     }
 
-    String insert = "INSERT INTO histories (ClientID, HistoryDate, HistoryTime, Title, Content) VALUES (?, ?, ?, ?, ?)";
+    String INSERT_SQL = "INSERT INTO histories (ClientID, HistoryDate, HistoryTime, Title, Content) VALUES (?, ?, ?, ?, ?)";
 
     public void insertHistories(String clientID, LocalDate date, LocalTime time, String title, String content) {
 
@@ -23,7 +23,7 @@ public class HistoriesCRUD {
             return;
         }
 
-        try (PreparedStatement statement = connection.prepareStatement(insert)) {
+        try (PreparedStatement statement = connection.prepareStatement(INSERT_SQL)) {
             statement.setString(1, clientID);
             statement.setDate(2, java.sql.Date.valueOf(date));
             statement.setTime(3, java.sql.Time.valueOf(time));

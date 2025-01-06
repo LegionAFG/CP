@@ -45,7 +45,7 @@
             <children>
                 <TableView layoutX="14.0" layoutY="29.0" prefHeight="248.0" prefWidth="608.0">
                     <columns>
-                        <TableColumn prefWidth="75.0" text="IFA" />
+                        <TableColumn prefWidth="75.0" text="ClientId" />
                         <TableColumn prefWidth="75.0" text="Lastname" />
                         <TableColumn prefWidth="75.0" text="Firstname" />
                         <TableColumn prefWidth="156.800048828125" text="Institution" />
@@ -54,15 +54,15 @@
                         <TableColumn prefWidth="77.5999755859375" text="Priority" />
                     </columns>
                 </TableView>
-                <TableView layoutX="14.0" layoutY="300.0" prefHeight="290.0" prefWidth="608.0">
+                <TableView fx:id="clientTable" layoutX="14.0" layoutY="300.0" prefHeight="290.0" prefWidth="608.0">
                     <columns>
-                        <TableColumn prefWidth="75.0" text="IFA" />
-                        <TableColumn prefWidth="75.0" text="Lastname" />
-                        <TableColumn prefWidth="75.0" text="Firstname" />
-                        <TableColumn prefWidth="80.7999267578125" text="Date of Birth" />
-                        <TableColumn prefWidth="80.7999267578125" text="Gender" />
-                        <TableColumn prefWidth="126.4000244140625" text="Nationality" />
-                        <TableColumn prefWidth="89.5999755859375" text="Marital Status" />
+                        <TableColumn fx:id="columnId" prefWidth="75.0" text="ClientId" />
+                        <TableColumn fx:id="columnLastname" prefWidth="75.0" text="Lastname" />
+                        <TableColumn fx:id="columnFirstname" prefWidth="75.0" text="Firstname" />
+                        <TableColumn fx:id="columnDate" prefWidth="80.7999267578125" text="Date of Birth" />
+                        <TableColumn fx:id="columnGender" prefWidth="80.7999267578125" text="Gender" />
+                        <TableColumn fx:id="columnNation" prefWidth="126.4000244140625" text="Nationality" />
+                        <TableColumn fx:id="columnRelationship" prefWidth="89.5999755859375" text="Marital Status" />
                     </columns>
                 </TableView>
                 <Text fill="#3b5998" layoutX="14.0" layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Open Appointments">

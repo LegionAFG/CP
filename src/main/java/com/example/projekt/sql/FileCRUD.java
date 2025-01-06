@@ -16,7 +16,7 @@ public class FileCRUD {
         this.connection = dbConnection.getConnection();
     }
 
-    String insert = "INSERT INTO files (ClientID, Filename, FileData) VALUES (?, ?, ?)";
+    String INSERT_SQL = "INSERT INTO files (ClientID, Filename, FileData) VALUES (?, ?, ?)";
 
 
     public void insertFile(String clientID, String fileName, File fileData) {
@@ -33,7 +33,7 @@ public class FileCRUD {
 
         try (
                 FileInputStream inputStream = new FileInputStream(fileData);
-                PreparedStatement statement = connection.prepareStatement(insert)
+                PreparedStatement statement = connection.prepareStatement(INSERT_SQL)
         ) {
 
             statement.setString(1, clientID);

@@ -16,11 +16,7 @@ public class AppointmentCRUD {
         this.dbConnection = dbConnection;
     }
 
-    String insert = "INSERT INTO appointments (ClientID, AppointmentDate, AppointmentTime,Institution,PostCode,Street,Status) VALUES (?,?,?,?,?,?,?)";
-
-
-
-
+    String INSERT_SQL = "INSERT INTO appointments (ClientID, AppointmentDate, AppointmentTime,Institution,PostCode,Street,Status) VALUES (?,?,?,?,?,?,?)";
 
     public void insertAppointment(String clientId, LocalDate date, LocalTime time, String institution, String postCode, String street, String status) {
 
@@ -31,7 +27,7 @@ public class AppointmentCRUD {
             return;
         }
 
-        try (PreparedStatement statement = connection.prepareStatement(insert)){
+        try (PreparedStatement statement = connection.prepareStatement(INSERT_SQL)){
             statement.setString(1,clientId);
             statement.setDate(2, java.sql.Date.valueOf(date));
             statement.setTime(3, java.sql.Time.valueOf(time));

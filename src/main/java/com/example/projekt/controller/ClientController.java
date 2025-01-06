@@ -1,5 +1,6 @@
 package com.example.projekt.controller;
 
+
 import com.example.projekt.service.NavigateService;
 import com.example.projekt.sql.ClientCRUD;
 import com.example.projekt.sql.DatabaseConnection;
@@ -7,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+
 import javafx.stage.Stage;
 import java.time.LocalDate;
 
@@ -15,7 +17,6 @@ public class ClientController {
     NavigateService navigateService;
     ClientCRUD clientCRUD;
     DatabaseConnection dbConnection;
-
 
     public ClientController() {
         this.dbConnection = new DatabaseConnection();
@@ -50,8 +51,11 @@ public class ClientController {
     @FXML
     ChoiceBox<String> relationship;
 
+
+
     @FXML
     public void initialize() {
+
         gender.getItems().addAll("Male", "Female", "Divers");
         gender.setValue("Pleas choose");
 
