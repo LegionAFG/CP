@@ -43,15 +43,15 @@
     <center>
         <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #dfe3ee;" BorderPane.alignment="CENTER">
             <children>
-                <TableView layoutX="14.0" layoutY="29.0" prefHeight="248.0" prefWidth="608.0">
+                <TableView fx:id="appointmentTable" layoutX="14.0" layoutY="29.0" prefHeight="248.0" prefWidth="608.0">
                     <columns>
-                        <TableColumn prefWidth="75.0" text="ClientId" />
-                        <TableColumn prefWidth="75.0" text="Lastname" />
-                        <TableColumn prefWidth="75.0" text="Firstname" />
-                        <TableColumn prefWidth="156.800048828125" text="Institution" />
-                        <TableColumn prefWidth="73.5999755859375" text="Date" />
-                        <TableColumn prefWidth="68.0001220703125" text="Time" />
-                        <TableColumn prefWidth="77.5999755859375" text="Priority" />
+                        <TableColumn fx:id="clientAppointmentIdColumn" prefWidth="75.0" text="ClientId" />
+                        <TableColumn fx:id="appointmentLastnameColumn" prefWidth="75.0" text="Lastname" />
+                        <TableColumn fx:id="appointmentFirstnameColumn" prefWidth="75.0" text="Firstname" />
+                        <TableColumn fx:id="institutionColumn" prefWidth="156.800048828125" text="Institution" />
+                        <TableColumn fx:id="appointmentDateColumn" prefWidth="73.5999755859375" text="Date" />
+                        <TableColumn fx:id="appointmentTimeColumn" prefWidth="68.0001220703125" text="Time" />
+                        <TableColumn fx:id="statusColumn" prefWidth="77.5999755859375" text="Priority" />
                     </columns>
                 </TableView>
                 <TableView fx:id="clientTable" layoutX="14.0" layoutY="300.0" prefHeight="290.0" prefWidth="608.0">
