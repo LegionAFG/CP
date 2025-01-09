@@ -1,6 +1,8 @@
 package com.example.projekt.controller;
 
 
+import com.example.projekt.model.Client;
+import com.example.projekt.service.IdService;
 import com.example.projekt.service.NavigateService;
 import com.example.projekt.sql.ClientCRUD;
 import com.example.projekt.sql.DatabaseConnection;
@@ -52,7 +54,6 @@ public class ClientController {
     ChoiceBox<String> relationship;
 
 
-
     @FXML
     public void initialize() {
 
@@ -61,6 +62,10 @@ public class ClientController {
 
         relationship.getItems().addAll("Married", "Single");
         relationship.setValue("Pleas choose");
+
+        IdService idService = new IdService(clientCRUD);
+        clientID.setText(idService.generateUnique6DigitId());
+        clientID.setDisable(true);
     }
 
 
@@ -99,7 +104,6 @@ public class ClientController {
     @FXML
     public void onSaveButtonClick(ActionEvent event) {
 
-        String id = clientID.getText();
         String last = lastname.getText();
         String first = firstname.getText();
         LocalDate birthDate = date.getValue();
@@ -107,7 +111,19 @@ public class ClientController {
         String nation = nationality.getText();
         String relation = relationship.getValue();
 
-        clientCRUD.insertClient(id, last, first, birthDate, genderValue, nation, relation);
+        clientCRUD.insertClient(last, first, birthDate, genderValue, nation, relation);
+    }
+
+    public void setClientDetails(Client client) {
+        if (client != null) {
+            clientID.setText(client.getId());
+            firstname.setText(client.getFirstname());
+            lastname.setText(client.getLastname());
+            nationality.setText(client.getNationality());
+            date.setValue(client.getBirthdate());
+            gender.setValue(client.getGender());
+            relationship.setValue(client.getRelationship());
+        }
+
     }
 }
-

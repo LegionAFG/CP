@@ -67,18 +67,18 @@ public class AppointmentCRUD {
         }
     }
 
-    public ObservableList<Appointment> getAllAppointments(){
+    public ObservableList<Appointment> getAllAppointments() {
         ObservableList<Appointment> appointmentList = FXCollections.observableArrayList();
         Connection connection = dbConnection.getConnection();
 
-        if (connection == null){
+        if (connection == null) {
             logger.severe("Keine aktive Datenbankverbindung vorhanden!");
             return appointmentList;
         }
         try (PreparedStatement statement = connection.prepareStatement(SELECT_SQL);
-        ResultSet resultSet = statement.executeQuery()) {
+             ResultSet resultSet = statement.executeQuery()) {
 
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 String clientID = resultSet.getString("ClientID");
                 String lastname = resultSet.getString("Lastname");
                 String firstname = resultSet.getString("Firstname");
@@ -89,13 +89,13 @@ public class AppointmentCRUD {
                 String street = resultSet.getString("Street");
                 String status = resultSet.getString("Status");
 
-                Appointment appointment = new Appointment(clientID,lastname,firstname,date,time,institution,postCode,street,status);
+                Appointment appointment = new Appointment(clientID, lastname, firstname, date, time, institution, postCode, street, status);
                 appointmentList.add(appointment);
 
 
             }
 
-        }catch (SQLException e){
+        } catch (SQLException e) {
             logger.log(Level.SEVERE, "Fehler beim Abrufen der Termine: " + e.getMessage(), e);
         }
         return appointmentList;

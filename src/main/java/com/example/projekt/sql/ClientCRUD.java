@@ -1,6 +1,7 @@
 package com.example.projekt.sql;
 
 import com.example.projekt.model.Client;
+import com.example.projekt.service.IdService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -17,15 +18,20 @@ public class ClientCRUD {
     private static final Logger logger = Logger.getLogger(ClientCRUD.class.getName());
 
     private final DatabaseConnection dbConnection;
+    private final IdService idService;
 
     private static final String INSERT_SQL = "INSERT INTO clients (ClientID, Lastname, Firstname, Birthdate, Gender, Nationality, Relationship) VALUES (?, ?, ?, ?, ?, ?, ?)";
-    private static final String SELECT_SQL = "SELECT * FROM" + " clients";
+    private static final String SELECT_SQL = "SELECT * FROM clients";
+    private static final String CHECK_ID_SQL = "SELECT COUNT(*) AS count FROM clients WHERE ClientID = ?";
 
     public ClientCRUD(DatabaseConnection dbConnection) {
         this.dbConnection = dbConnection;
+        this.idService = new IdService(this);
     }
 
-    public void insertClient(String clientId, String lastname, String firstname, LocalDate birthdate, String gender, String nationality, String relationship) {
+    public void insertClient(String lastname, String firstname, LocalDate birthdate, String gender, String nationality, String relationship) {
+
+        String clientId = idService.generateUnique6DigitId();
 
         Connection connection = dbConnection.getConnection();
 
@@ -81,5 +87,25 @@ public class ClientCRUD {
             logger.log(Level.SEVERE, "Fehler beim Abrufen der Klienten: " + e.getMessage(), e);
         }
         return clientList;
+    }
+
+    public boolean isIdExists(String clientId) {
+        Connection connection = dbConnection.getConnection();
+        if (connection == null) {
+            logger.severe("Keine aktive Datenbankverbindung vorhanden!");
+            return false;
+        }
+        try (PreparedStatement statement = connection.prepareStatement(CHECK_ID_SQL)) {
+            statement.setString(1, clientId);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    int count = resultSet.getInt("count");
+                    return count > 0;
+                }
+            }
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Fehler bei isIdExists: " + e.getMessage(), e);
+        }
+        return false;
     }
 }

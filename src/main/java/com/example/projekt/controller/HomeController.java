@@ -10,9 +10,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
@@ -23,10 +21,15 @@ public class HomeController {
 
     NavigateService navigateService;
     DatabaseConnection dbConnection;
+    ClientCRUD clientCRUD;
+    AppointmentCRUD appointmentCRUD;
+
 
     public HomeController() {
         this.dbConnection = new DatabaseConnection();
         this.navigateService = new NavigateService();
+        this.clientCRUD = new ClientCRUD(dbConnection);
+        this.appointmentCRUD = new AppointmentCRUD(dbConnection);
     }
 
     @FXML
@@ -69,12 +72,22 @@ public class HomeController {
 
     @FXML
     public void initialize() {
-        DatabaseConnection dbConnection = new DatabaseConnection();
-        ClientCRUD clientCRUD = new ClientCRUD(dbConnection);
-        AppointmentCRUD appointmentCRUD = new AppointmentCRUD(dbConnection);
 
         ObservableList<Client> clients = clientCRUD.getAllClients();
         ObservableList<Appointment> appointments = appointmentCRUD.getAllAppointments();
+        clientTable.setRowFactory(tv -> {
+            var row = new TableRow<Client>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && (!row.isEmpty())) {
+                    Client clickedClient = row.getItem();
+
+                    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                    navigateService.navigateClientDetails(stage, "client", clickedClient);
+                }
+            });
+            return row;
+        });
+
 
         columnId.setCellValueFactory(new PropertyValueFactory<>("id"));
         columnLastname.setCellValueFactory(new PropertyValueFactory<>("lastname"));
@@ -104,4 +117,7 @@ public class HomeController {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         navigateService.navigate(stage, "client");
     }
-}
+
+    }
+
+
