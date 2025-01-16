@@ -1,6 +1,8 @@
 package com.example.projekt.service;
 
+import com.example.projekt.controller.AppointmentController;
 import com.example.projekt.controller.ClientController;
+import com.example.projekt.model.Appointment;
 import com.example.projekt.model.Client;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -71,6 +73,43 @@ public class NavigateService {
 
             ClientController clientController = fxmlLoader.getController();
             clientController.setClientDetails(client);
+
+            Scene scene = new Scene(root, 800, 600);
+            stage.setTitle("Case Pilot");
+            stage.setScene(scene);
+            stage.show();
+            stage.setResizable(false);
+
+        } catch (IllegalArgumentException e) {
+
+            logger.severe("Navigation fehlgeschlagen: " + e.getMessage());
+            showErrorDialog("Navigation fehlgeschlagen", e.getMessage());
+        } catch (IOException e) {
+
+            logger.severe("Fehler beim Laden der Seite: " + e.getMessage());
+            showErrorDialog("Seitenladefehler", "Die Seite konnte nicht geladen werden.");
+        }
+
+    }
+
+    public void navigateAppointmentDetails(Stage stage, String page, Appointment appointment ){
+
+        try {
+
+            String fxmlPath = switch (page) {
+                case "home" -> HOME;
+                case "file" -> FILE;
+                case "appointment" -> APPOINTMENT;
+                case "client" -> CLIENT;
+                case "histories" -> HISTORIES;
+                default -> throw new IllegalArgumentException("Unbekannte Seite: " + page);
+            };
+
+            FXMLLoader fxmlLoader = new FXMLLoader(NavigateService.class.getResource(fxmlPath));
+            Parent root = fxmlLoader.load();
+
+            AppointmentController appointmentController = fxmlLoader.getController();
+            appointmentController.setAppointmentDetails(appointment);
 
             Scene scene = new Scene(root, 800, 600);
             stage.setTitle("Case Pilot");

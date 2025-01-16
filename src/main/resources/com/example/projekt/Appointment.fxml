@@ -34,7 +34,7 @@
                                 <Insets bottom="10.0" />
                             </VBox.margin>
                         </Button>
-                        <TextField prefHeight="30.0" prefWidth="151.0" promptText="Institution...">
+                        <TextField fx:id="clientID" prefHeight="30.0" prefWidth="151.0" promptText="ClientID">
                             <font>
                                 <Font name="System Bold" size="17.0" />
                             </font>
@@ -42,7 +42,7 @@
                                 <Insets bottom="10.0" />
                             </VBox.margin>
                         </TextField>
-                        <TextField prefHeight="30.0" prefWidth="151.0" promptText="Post Code...">
+                        <TextField fx:id="institution" prefHeight="30.0" prefWidth="151.0" promptText="Institution...">
                             <font>
                                 <Font name="System Bold" size="17.0" />
                             </font>
@@ -50,7 +50,7 @@
                                 <Insets bottom="10.0" />
                             </VBox.margin>
                         </TextField>
-                        <TextField prefHeight="30.0" prefWidth="151.0" promptText="City...">
+                        <TextField fx:id="city" prefHeight="30.0" prefWidth="151.0" promptText="City...">
                             <font>
                                 <Font name="System Bold" size="17.0" />
                             </font>
@@ -58,7 +58,7 @@
                                 <Insets bottom="10.0" />
                             </VBox.margin>
                         </TextField>
-                        <TextField prefHeight="30.0" prefWidth="151.0" promptText="Street...">
+                        <TextField fx:id="street" prefHeight="30.0" prefWidth="151.0" promptText="Street...">
                             <font>
                                 <Font name="System Bold" size="17.0" />
                             </font>
@@ -66,7 +66,7 @@
                                 <Insets bottom="10.0" />
                             </VBox.margin>
                         </TextField>
-                        <TextField prefHeight="30.0" prefWidth="151.0" promptText="Time...">
+                        <TextField fx:id="time" prefHeight="30.0" prefWidth="151.0" promptText="Time...">
                             <font>
                                 <Font name="System Bold" size="17.0" />
                             </font>
@@ -74,7 +74,7 @@
                                 <Insets bottom="10.0" />
                             </VBox.margin>
                         </TextField>
-                        <DatePicker prefHeight="30.0" prefWidth="151.0" style="-fx-font-size: 17;">
+                        <DatePicker fx:id="date" prefHeight="30.0" prefWidth="151.0" style="-fx-font-size: 17;">
                             <VBox.margin>
                                 <Insets bottom="10.0" />
                             </VBox.margin>
@@ -119,14 +119,14 @@
     <center>
         <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #dfe3ee;" BorderPane.alignment="CENTER">
             <children>
-                <TableView layoutX="5.0" layoutY="29.0" prefHeight="564.0" prefWidth="621.0">
+                <TableView fx:id="appointmentTableClient" layoutX="5.0" layoutY="29.0" prefHeight="564.0" prefWidth="621.0">
                     <columns>
-                        <TableColumn prefWidth="75.0" text="Date" />
-                        <TableColumn prefWidth="75.0" text="Time" />
-                        <TableColumn prefWidth="127.2000732421875" text="Institution" />
-                        <TableColumn prefWidth="85.5999755859375" text="Post Code" />
-                        <TableColumn prefWidth="90.4000244140625" text="City" />
-                        <TableColumn prefWidth="160.0" text="Street" />
+                        <TableColumn fx:id="appointmentDateClientColumn" prefWidth="75.0" text="Date" />
+                        <TableColumn fx:id="appointmentTimeClientColumn" prefWidth="75.0" text="Time" />
+                        <TableColumn fx:id="institutionClientColumn" prefWidth="127.2000732421875" text="Institution" />
+                        <TableColumn fx:id="appointmentCityColumn" prefWidth="90.4000244140625" text="City" />
+                        <TableColumn fx:id="appointmentStreetColumn" prefWidth="160.0" text="Street" />
+                  <TableColumn fx:id="appointmentStatusColumn" prefWidth="90.0" text="Status" />
                     </columns>
                 </TableView>
                 <Text fill="#3b5998" layoutX="14.0" layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Appointments">

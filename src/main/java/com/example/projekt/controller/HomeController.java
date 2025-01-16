@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.time.LocalDate;
@@ -88,6 +89,18 @@ public class HomeController {
             return row;
         });
 
+       appointmentTable.setRowFactory(tv -> {
+            var row = new TableRow<Appointment>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && (!row.isEmpty())) {
+                    Appointment clickedAppointment = row.getItem();
+
+                    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                    navigateService.navigateAppointmentDetails(stage, "appointment", clickedAppointment);
+                }
+            });
+            return row;
+        });
 
         columnId.setCellValueFactory(new PropertyValueFactory<>("id"));
         columnLastname.setCellValueFactory(new PropertyValueFactory<>("lastname"));

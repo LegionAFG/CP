@@ -123,15 +123,14 @@
                         <TableColumn prefWidth="221.60009765625" text="Titel" />
                     </columns>
                 </TableView>
-                <TableView layoutX="14.0" layoutY="300.0" prefHeight="290.0" prefWidth="608.0">
+                <TableView fx:id="appointmentTableClient" layoutX="14.0" layoutY="300.0" prefHeight="290.0" prefWidth="608.0">
                     <columns>
-                        <TableColumn prefWidth="75.0" text="Date" />
-                        <TableColumn prefWidth="75.0" text="Time" />
-                        <TableColumn prefWidth="105.60009765625" text="Institution" />
-                        <TableColumn prefWidth="86.4000244140625" text="Post Code" />
-                        <TableColumn prefWidth="91.199951171875" text="City" />
-                        <TableColumn prefWidth="107.2000732421875" text="Street" />
-                        <TableColumn prefWidth="62.4000244140625" text="Status" />
+                        <TableColumn fx:id="appointmentDateClientColumn" prefWidth="75.0" text="Date" />
+                        <TableColumn fx:id="appointmentTimeClientColumn" prefWidth="75.0" text="Time" />
+                        <TableColumn fx:id="institutionClientColumn" prefWidth="118.0" text="Institution" />
+                        <TableColumn fx:id="appointmentCityColumn" prefWidth="126.0" text="City" />
+                        <TableColumn fx:id="appointmentStreetColumn" prefWidth="122.0" text="Street" />
+                        <TableColumn fx:id="statusClientColumn" prefWidth="91.0" text="Status" />
                     </columns>
                 </TableView>
                 <Text fill="#3b5998" layoutX="14.0" layoutY="297.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Appointments">

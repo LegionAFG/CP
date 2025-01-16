@@ -21,15 +21,16 @@ public class AppointmentCRUD {
         this.dbConnection = dbConnection;
     }
 
-    String INSERT_SQL = "INSERT INTO appointments (ClientID, AppointmentDate, AppointmentTime,Institution,PostCode,Street,Status) VALUES (?,?,?,?,?,?,?)";
+    String INSERT_SQL = "INSERT INTO appointments (ClientID, AppointmentDate, AppointmentTime,Institution,City,Street,Status) VALUES (?,?,?,?,?,?,?)";
     String SELECT_SQL;
+    String SELECT_ID_SQL = "SELECT * FROM appointments WHERE clientID = ?";
 
     {
         SELECT_SQL = "SELECT a.ClientID, " +
                 "       a.AppointmentDate, " +
                 "       a.AppointmentTime, " +
                 "       a.Institution, " +
-                "       a.PostCode, " +
+                "       a.City, " +
                 "       a.Street, " +
                 "       a.Status, " +
                 "       c.lastname AS Lastname, " +
@@ -38,7 +39,7 @@ public class AppointmentCRUD {
                 "JOIN clients c ON a.ClientID = c.ClientID";
     }
 
-    public void insertAppointment(String clientId, LocalDate date, LocalTime time, String institution, String postCode, String street, String status) {
+    public void insertAppointment(String clientId, LocalDate date, LocalTime time, String institution, String city, String street, String status) {
 
         Connection connection = dbConnection.getConnection();
 
@@ -52,13 +53,13 @@ public class AppointmentCRUD {
             statement.setDate(2, java.sql.Date.valueOf(date));
             statement.setTime(3, java.sql.Time.valueOf(time));
             statement.setString(4, institution);
-            statement.setString(5, postCode);
+            statement.setString(5, city);
             statement.setString(6, street);
             statement.setString(7, status);
 
             int rowsInserted = statement.executeUpdate();
             if (rowsInserted > 0) {
-                logger.info("Termin erfolgreich eingefügt: " + clientId + ", " + date + "," + time + "," + institution + "," + postCode + "," + street + "," + status);
+                logger.info("Termin erfolgreich eingefügt: " + clientId + ", " + date + "," + time + "," + institution + "," + city + "," + street + "," + status);
             } else {
                 logger.warning("Es wurde kein Datensatz eingefügt.");
             }
@@ -85,11 +86,11 @@ public class AppointmentCRUD {
                 LocalDate date = resultSet.getDate("AppointmentDate").toLocalDate();
                 LocalTime time = resultSet.getTime("AppointmentTime").toLocalTime();
                 String institution = resultSet.getString("Institution");
-                String postCode = resultSet.getString("PostCode");
+                String city = resultSet.getString("City");
                 String street = resultSet.getString("Street");
                 String status = resultSet.getString("Status");
 
-                Appointment appointment = new Appointment(clientID, lastname, firstname, date, time, institution, postCode, street, status);
+                Appointment appointment = new Appointment(clientID, lastname, firstname, date, time, institution, city, street, status);
                 appointmentList.add(appointment);
 
 
@@ -99,6 +100,49 @@ public class AppointmentCRUD {
             logger.log(Level.SEVERE, "Fehler beim Abrufen der Termine: " + e.getMessage(), e);
         }
         return appointmentList;
+    }
+
+    public ObservableList<Appointment> getAppointmentsByClientId(String clientId){
+        ObservableList<Appointment> appointmentList = FXCollections.observableArrayList();
+
+        try{
+            Connection connection = dbConnection.getConnection();
+
+            PreparedStatement statement = connection.prepareStatement(SELECT_ID_SQL);
+            statement.setString(1,clientId);
+
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()){
+
+                String id = rs.getString("ClientID");
+                String street = rs.getString("street");
+                String city = rs.getString("city");
+                LocalDate date = rs.getDate("appointmentDate").toLocalDate();
+                LocalTime time = rs.getTime("appointmentTime").toLocalTime();
+                String institution = rs.getString("institution");
+                String status = rs.getString("status");
+
+                Appointment appointment = new Appointment( id,date,time,institution,city,street,status);
+                appointment.setId(id);
+                appointment.setStreet(street);
+                appointment.setCity(city);
+                appointment.setDate(date);
+                appointment.setTime(time);
+                appointment.setInstitution(institution);
+                appointment.setStatus(status);
+
+               appointmentList.add(appointment);
+
+            }
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return appointmentList;
+
     }
 
 

@@ -9,7 +9,7 @@ public class Appointment {
     private LocalDate date;
     private LocalTime time;
     private String institution;
-    private String postCode;
+    private String city;
     private String street;
     private String status;
     private String lastname;
@@ -21,7 +21,7 @@ public class Appointment {
                        LocalDate date,
                        LocalTime time,
                        String institution,
-                       String postCode,
+                       String city,
                        String street,
                        String status
                       )
@@ -30,12 +30,31 @@ public class Appointment {
         this.date = date;
         this.time = time;
         this.institution = institution;
-        this.postCode = postCode;
+        this.city = city;
         this.street = street;
         this.status = status;
         this.lastname = lastname;
         this.firstname = firstname;
     }
+
+    public Appointment(String id,
+                       LocalDate date,
+                       LocalTime time,
+                       String institution,
+                       String city,
+                       String street,
+                       String status
+    )
+    {
+        this.id = id;
+        this.date = date;
+        this.time = time;
+        this.institution = institution;
+        this.city = city;
+        this.street = street;
+        this.status = status;
+    }
+
 
     // Getter & Setter
 
@@ -67,11 +86,11 @@ public class Appointment {
         this.institution = institution;
     }
 
-    public String getPostCode() {
-        return postCode;
+    public String getCity() {
+        return city;
     }
-    public void setPostCode(String postCode) {
-        this.postCode = postCode;
+    public void setCity(String city) {
+        this.city = city;
     }
 
     public String getStreet() {
