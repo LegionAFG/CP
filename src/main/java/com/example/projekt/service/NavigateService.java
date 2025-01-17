@@ -4,6 +4,7 @@ import com.example.projekt.controller.AppointmentController;
 import com.example.projekt.controller.ClientController;
 import com.example.projekt.model.Appointment;
 import com.example.projekt.model.Client;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -55,18 +56,12 @@ public class NavigateService {
 
     }
 
-    public void navigateClientDetails(Stage stage, String page, Client client ){
+    public void navigateClientDetails(Stage stage, Client client ){
 
         try {
 
-            String fxmlPath = switch (page) {
-                case "home" -> HOME;
-                case "file" -> FILE;
-                case "appointment" -> APPOINTMENT;
-                case "client" -> CLIENT;
-                case "histories" -> HISTORIES;
-                default -> throw new IllegalArgumentException("Unbekannte Seite: " + page);
-            };
+            String fxmlPath = CLIENT;
+
 
             FXMLLoader fxmlLoader = new FXMLLoader(NavigateService.class.getResource(fxmlPath));
             Parent root = fxmlLoader.load();
@@ -75,7 +70,7 @@ public class NavigateService {
             clientController.setClientDetails(client);
 
             Scene scene = new Scene(root, 800, 600);
-            stage.setTitle("Case Pilot");
+            stage.setTitle("Client");
             stage.setScene(scene);
             stage.show();
             stage.setResizable(false);
@@ -92,18 +87,11 @@ public class NavigateService {
 
     }
 
-    public void navigateAppointmentDetails(Stage stage, String page, Appointment appointment ){
+    public void navigateAppointmentDetails(Stage stage, Appointment appointment ){
 
         try {
 
-            String fxmlPath = switch (page) {
-                case "home" -> HOME;
-                case "file" -> FILE;
-                case "appointment" -> APPOINTMENT;
-                case "client" -> CLIENT;
-                case "histories" -> HISTORIES;
-                default -> throw new IllegalArgumentException("Unbekannte Seite: " + page);
-            };
+            String fxmlPath = APPOINTMENT;
 
             FXMLLoader fxmlLoader = new FXMLLoader(NavigateService.class.getResource(fxmlPath));
             Parent root = fxmlLoader.load();
@@ -112,7 +100,7 @@ public class NavigateService {
             appointmentController.setAppointmentDetails(appointment);
 
             Scene scene = new Scene(root, 800, 600);
-            stage.setTitle("Case Pilot");
+            stage.setTitle("Appointment");
             stage.setScene(scene);
             stage.show();
             stage.setResizable(false);
@@ -136,4 +124,22 @@ public class NavigateService {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
+    public void navigateAppointmentDetails(Stage stage, ObservableList<Appointment> appointments) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(APPOINTMENT));
+            Parent root = fxmlLoader.load();
+
+            AppointmentController controller = fxmlLoader.getController();
+            controller.setAppointments(appointments);
+
+            stage.setScene(new Scene(root, 800, 600));
+            stage.setTitle("Appointment");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }

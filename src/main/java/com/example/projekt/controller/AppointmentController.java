@@ -76,18 +76,19 @@ public class AppointmentController {
 
 
     }
-    @FXML
-    public void onBackButtonClick(ActionEvent event){
 
-    Stage stage =  (Stage) ((Node) event.getSource()).getScene().getWindow();
-    navigateService.navigate(stage,"client");
+    @FXML
+    public void onBackButtonClick(ActionEvent event) {
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        navigateService.navigate(stage, "client");
     }
 
     @FXML
-    public void onHomeButtonClick(ActionEvent event){
+    public void onHomeButtonClick(ActionEvent event) {
 
-        Stage stage =  (Stage) ((Node) event.getSource()).getScene().getWindow();
-        navigateService.navigate(stage,"home");
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        navigateService.navigate(stage, "home");
     }
 
     public void setAppointmentDetails(Appointment appointment) {
@@ -114,5 +115,20 @@ public class AppointmentController {
         }
 
     }
+    public void setAppointments(ObservableList<Appointment> appointmentList) {
+        if (appointmentList != null) {
 
+            Appointment firstAppointment = appointmentList.getFirst();
+            clientID.setText(firstAppointment.getId());
+
+            appointmentDateClientColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+            appointmentTimeClientColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
+            institutionClientColumn.setCellValueFactory((new PropertyValueFactory<>("institution")));
+            appointmentCityColumn.setCellValueFactory(new PropertyValueFactory<>("city"));
+            appointmentStreetColumn.setCellValueFactory(new PropertyValueFactory<>("street"));
+            appointmentStatusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
+
+            appointmentTableClient.setItems(appointmentList);
+        }
+    }
 }

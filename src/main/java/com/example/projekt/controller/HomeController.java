@@ -83,7 +83,7 @@ public class HomeController {
                     Client clickedClient = row.getItem();
 
                     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                    navigateService.navigateClientDetails(stage, "client", clickedClient);
+                    navigateService.navigateClientDetails(stage,clickedClient);
                 }
             });
             return row;
@@ -96,7 +96,7 @@ public class HomeController {
                     Appointment clickedAppointment = row.getItem();
 
                     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                    navigateService.navigateAppointmentDetails(stage, "appointment", clickedAppointment);
+                    navigateService.navigateAppointmentDetails(stage,clickedAppointment);
                 }
             });
             return row;

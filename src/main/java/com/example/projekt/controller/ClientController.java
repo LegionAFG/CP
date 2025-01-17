@@ -16,6 +16,7 @@ import javafx.scene.control.*;
 
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -25,12 +26,14 @@ public class ClientController {
     ClientCRUD clientCRUD;
     DatabaseConnection dbConnection;
     AppointmentCRUD appointmentCRUD;
+    AppointmentController appointmentController;
 
     public ClientController() {
         this.dbConnection = new DatabaseConnection();
         this.navigateService = new NavigateService();
         this.clientCRUD = new ClientCRUD(dbConnection);
         this.appointmentCRUD = new AppointmentCRUD(dbConnection);
+
     }
 
     @FXML
@@ -77,17 +80,16 @@ public class ClientController {
     TableColumn<Appointment, String> statusClientColumn;
 
 
-
     @FXML
     public void initialize() {
 
         gender.getItems().addAll("Male", "Female", "Other");
         gender.setValue("Pleas choose");
 
-        relationship.getItems().addAll("Married", "Single","Complicated","Divorced","Widowed");
+        relationship.getItems().addAll("Married", "Single", "Complicated", "Divorced", "Widowed");
         relationship.setValue("Pleas choose");
 
-       IdService idService = new IdService(clientCRUD);
+        IdService idService = new IdService(clientCRUD);
         clientID.setText(idService.generateUnique6DigitId());
         clientID.setDisable(true);
 
@@ -98,7 +100,7 @@ public class ClientController {
                     Appointment clickedAppointment = row.getItem();
 
                     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                    navigateService.navigateAppointmentDetails(stage, "appointment", clickedAppointment);
+                    navigateService.navigateAppointmentDetails(stage, clickedAppointment);
                 }
             });
             return row;
@@ -118,10 +120,15 @@ public class ClientController {
     @FXML
     public void onAppointmentButtonClick(ActionEvent event) {
 
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        navigateService.navigate(stage, "appointment");
+        String clientId = clientID.getText();
 
+        ObservableList<Appointment> appointments = appointmentCRUD.getAppointmentsByClientId(clientId);
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        navigateService.navigateAppointmentDetails(stage, appointments);
     }
+
 
     @FXML
     public void onFileButtonClick(ActionEvent event) {
