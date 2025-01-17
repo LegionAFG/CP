@@ -21,9 +21,9 @@ public class AppointmentCRUD {
         this.dbConnection = dbConnection;
     }
 
-    String INSERT_SQL = "INSERT INTO appointments (ClientID, AppointmentDate, AppointmentTime,Institution,City,Street,Status) VALUES (?,?,?,?,?,?,?)";
+    private static final String INSERT_SQL = "INSERT INTO appointments (ClientID, AppointmentDate, AppointmentTime,Institution,City,Street,Status) VALUES (?,?,?,?,?,?,?)";
     String SELECT_SQL;
-    String SELECT_ID_SQL = "SELECT * FROM appointments WHERE clientID = ?";
+    private static final  String SELECT_ID_SQL = "SELECT * FROM appointments WHERE clientID = ?";
 
     {
         SELECT_SQL = "SELECT a.ClientID, " +

@@ -26,7 +26,7 @@ public class ClientController {
     ClientCRUD clientCRUD;
     DatabaseConnection dbConnection;
     AppointmentCRUD appointmentCRUD;
-    AppointmentController appointmentController;
+
 
     public ClientController() {
         this.dbConnection = new DatabaseConnection();
@@ -147,7 +147,7 @@ public class ClientController {
     }
 
     @FXML
-    public void onSaveButtonClick(ActionEvent event) {
+    public void onSaveButtonClick(ActionEvent ignoredEvent) {
 
         String last = lastname.getText();
         String first = firstname.getText();

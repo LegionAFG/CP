@@ -2,7 +2,6 @@ package com.example.projekt.controller;
 
 import com.example.projekt.model.Appointment;
 import com.example.projekt.model.Client;
-import com.example.projekt.service.IdService;
 import com.example.projekt.service.NavigateService;
 import com.example.projekt.sql.AppointmentCRUD;
 import com.example.projekt.sql.ClientCRUD;
@@ -80,8 +79,19 @@ public class AppointmentController {
     @FXML
     public void onBackButtonClick(ActionEvent event) {
 
+
+
+        ObservableList<Client> clients = clientCRUD.getClientByClientId(clientID.getText());
+
+        if (clients == null || clients.isEmpty()) {
+            System.out.println("Kein Client mit der angegebenen ID gefunden.");
+            return;
+        }
+
+        Client selectedClient = clients.getFirst();
+
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        navigateService.navigate(stage, "client");
+        navigateService.navigateClientDetails(stage,selectedClient);
     }
 
     @FXML

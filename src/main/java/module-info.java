@@ -7,6 +7,7 @@ module com.example.projekt {
     exports com.example.projekt.service;
     exports com.example.projekt.run;
     exports com.example.projekt.controller;
+    exports com.example.projekt.model;
 
     opens com.example.projekt.run to javafx.fxml, javafx.graphics;
     opens com.example.projekt.controller to javafx.fxml;

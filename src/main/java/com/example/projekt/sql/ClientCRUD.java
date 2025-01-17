@@ -1,5 +1,4 @@
 package com.example.projekt.sql;
-
 import com.example.projekt.model.Client;
 import com.example.projekt.service.IdService;
 import javafx.collections.FXCollections;
@@ -23,6 +22,7 @@ public class ClientCRUD {
     private static final String INSERT_SQL = "INSERT INTO clients (ClientID, Lastname, Firstname, Birthdate, Gender, Nationality, Relationship) VALUES (?, ?, ?, ?, ?, ?, ?)";
     private static final String SELECT_SQL = "SELECT * FROM clients";
     private static final String CHECK_ID_SQL = "SELECT COUNT(*) AS count FROM clients WHERE ClientID = ?";
+    private static final String SELECT_ID_SQL = "SELECT * FROM clients WHERE clientID = ?";
 
     public ClientCRUD(DatabaseConnection dbConnection) {
         this.dbConnection = dbConnection;
@@ -107,5 +107,48 @@ public class ClientCRUD {
             logger.log(Level.SEVERE, "Fehler bei isIdExists: " + e.getMessage(), e);
         }
         return false;
+    }
+
+    public ObservableList<Client> getClientByClientId(String clientId) {
+        ObservableList<Client> clientList = FXCollections.observableArrayList();
+
+        try {
+            Connection connection = dbConnection.getConnection();
+
+            PreparedStatement statement = connection.prepareStatement(SELECT_ID_SQL);
+            statement.setString(1, clientId);
+
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+
+                String id = rs.getString("ClientID");
+                String lastname = rs.getString("Lastname");
+                String firstname = rs.getString("Firstname");
+                LocalDate date = rs.getDate("Birthdate").toLocalDate();
+                String gender = rs.getString("Gender");
+                String nationality = rs.getString("Nationality");
+                String relationship = rs.getString("Relationship");
+
+                Client client = new Client(id, lastname, firstname, date, gender, nationality, relationship);
+                client.setId(id);
+                client.setLastname(lastname);
+                client.setFirstname(firstname);
+                client.setBirthdate(date);
+                client.setGender(gender);
+                client.setNationality(nationality);
+                client.setRelationship(relationship);
+
+                clientList.add(client);
+
+            }
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return clientList;
+
     }
 }
