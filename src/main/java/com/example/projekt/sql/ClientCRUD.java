@@ -1,4 +1,5 @@
 package com.example.projekt.sql;
+
 import com.example.projekt.model.Client;
 import com.example.projekt.service.IdService;
 import javafx.collections.FXCollections;
@@ -22,22 +23,19 @@ public class ClientCRUD {
     private static final String INSERT_SQL = "INSERT INTO clients (ClientID, Lastname, Firstname, Birthdate, Gender, Nationality, Relationship) VALUES (?, ?, ?, ?, ?, ?, ?)";
     private static final String SELECT_SQL = "SELECT * FROM clients";
     private static final String CHECK_ID_SQL = "SELECT COUNT(*) AS count FROM clients WHERE ClientID = ?";
-    private static final String SELECT_ID_SQL = "SELECT * FROM clients WHERE clientID = ?";
+    private static final String SELECT_ID_SQL = "SELECT * FROM clients WHERE ClientID = ?";
 
     public ClientCRUD(DatabaseConnection dbConnection) {
         this.dbConnection = dbConnection;
         this.idService = new IdService(this);
     }
 
-    public void insertClient(String lastname, String firstname, LocalDate birthdate, String gender, String nationality, String relationship) {
-
-        String clientId = idService.generateUnique6DigitId();
-
+    public boolean insertClient(String clientId, String lastname, String firstname, LocalDate birthdate, String gender, String nationality, String relationship) {
         Connection connection = dbConnection.getConnection();
 
         if (connection == null) {
             logger.severe("Keine aktive Datenbankverbindung vorhanden!");
-            return;
+            return false;
         }
 
         try (PreparedStatement statement = connection.prepareStatement(INSERT_SQL)) {
@@ -52,11 +50,14 @@ public class ClientCRUD {
             int rowsInserted = statement.executeUpdate();
             if (rowsInserted > 0) {
                 logger.info("Klient erfolgreich eingefügt: " + clientId + ", " + lastname + ", " + firstname + ", " + birthdate + ", " + gender + ", " + nationality + ", " + relationship);
+                return true;
             } else {
                 logger.warning("Es wurde kein Datensatz eingefügt.");
+                return false;
             }
         } catch (SQLException e) {
             logger.log(Level.SEVERE, "Fehler beim Einfügen des Klienten: " + e.getMessage(), e);
+            return false;
         }
     }
 
@@ -121,7 +122,6 @@ public class ClientCRUD {
             ResultSet rs = statement.executeQuery();
 
             while (rs.next()) {
-
                 String id = rs.getString("ClientID");
                 String lastname = rs.getString("Lastname");
                 String firstname = rs.getString("Firstname");
@@ -131,24 +131,14 @@ public class ClientCRUD {
                 String relationship = rs.getString("Relationship");
 
                 Client client = new Client(id, lastname, firstname, date, gender, nationality, relationship);
-                client.setId(id);
-                client.setLastname(lastname);
-                client.setFirstname(firstname);
-                client.setBirthdate(date);
-                client.setGender(gender);
-                client.setNationality(nationality);
-                client.setRelationship(relationship);
-
                 clientList.add(client);
-
             }
             statement.close();
             connection.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Fehler beim Abrufen des Klienten: " + e.getMessage(), e);
         }
 
         return clientList;
-
     }
 }

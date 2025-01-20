@@ -60,10 +60,8 @@ public class NavigateService {
 
         try {
 
-            String fxmlPath = CLIENT;
 
-
-            FXMLLoader fxmlLoader = new FXMLLoader(NavigateService.class.getResource(fxmlPath));
+            FXMLLoader fxmlLoader = new FXMLLoader(NavigateService.class.getResource(CLIENT));
             Parent root = fxmlLoader.load();
 
             ClientController clientController = fxmlLoader.getController();
@@ -75,10 +73,6 @@ public class NavigateService {
             stage.show();
             stage.setResizable(false);
 
-        } catch (IllegalArgumentException e) {
-
-            logger.severe("Navigation fehlgeschlagen: " + e.getMessage());
-            showErrorDialog("Navigation fehlgeschlagen", e.getMessage());
         } catch (IOException e) {
 
             logger.severe("Fehler beim Laden der Seite: " + e.getMessage());
@@ -91,9 +85,7 @@ public class NavigateService {
 
         try {
 
-            String fxmlPath = APPOINTMENT;
-
-            FXMLLoader fxmlLoader = new FXMLLoader(NavigateService.class.getResource(fxmlPath));
+            FXMLLoader fxmlLoader = new FXMLLoader(NavigateService.class.getResource(APPOINTMENT));
             Parent root = fxmlLoader.load();
 
             AppointmentController appointmentController = fxmlLoader.getController();
@@ -105,10 +97,6 @@ public class NavigateService {
             stage.show();
             stage.setResizable(false);
 
-        } catch (IllegalArgumentException e) {
-
-            logger.severe("Navigation fehlgeschlagen: " + e.getMessage());
-            showErrorDialog("Navigation fehlgeschlagen", e.getMessage());
         } catch (IOException e) {
 
             logger.severe("Fehler beim Laden der Seite: " + e.getMessage());
@@ -137,7 +125,8 @@ public class NavigateService {
             stage.setTitle("Appointment");
             stage.show();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.severe("Navigation fehlgeschlagen: " + e.getMessage());
+            showErrorDialog("Navigation fehlgeschlagen", e.getMessage());
         }
     }
 

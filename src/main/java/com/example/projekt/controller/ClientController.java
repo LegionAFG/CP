@@ -26,6 +26,7 @@ public class ClientController {
     ClientCRUD clientCRUD;
     DatabaseConnection dbConnection;
     AppointmentCRUD appointmentCRUD;
+    IdService idService;
 
 
     public ClientController() {
@@ -33,6 +34,7 @@ public class ClientController {
         this.navigateService = new NavigateService();
         this.clientCRUD = new ClientCRUD(dbConnection);
         this.appointmentCRUD = new AppointmentCRUD(dbConnection);
+        this.idService = new IdService(clientCRUD);
 
     }
 
@@ -105,8 +107,6 @@ public class ClientController {
             });
             return row;
         });
-
-
     }
 
     @FXML
@@ -129,7 +129,6 @@ public class ClientController {
         navigateService.navigateAppointmentDetails(stage, appointments);
     }
 
-
     @FXML
     public void onFileButtonClick(ActionEvent event) {
 
@@ -148,16 +147,67 @@ public class ClientController {
 
     @FXML
     public void onSaveButtonClick(ActionEvent ignoredEvent) {
+        String id = clientID.getText().trim();
 
-        String last = lastname.getText();
-        String first = firstname.getText();
+        if (id.isEmpty()) {
+
+            id = idService.generateUnique6DigitId();
+
+            clientID.setText(id);
+        } else {
+
+            if (clientCRUD.isIdExists(id)) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Warnung");
+                alert.setHeaderText(null);
+                alert.setContentText("Die eingegebene ID existiert bereits. Bitte wählen Sie eine andere ID.");
+                alert.showAndWait();
+                return;
+            }
+        }
+
+        String last = lastname.getText().trim();
+        String first = firstname.getText().trim();
         LocalDate birthDate = date.getValue();
         String genderValue = gender.getValue();
-        String nation = nationality.getText();
+        String nation = nationality.getText().trim();
         String relation = relationship.getValue();
 
-        clientCRUD.insertClient(last, first, birthDate, genderValue, nation, relation);
+
+        if (last.isEmpty() || first.isEmpty() || birthDate == null || genderValue == null || nation.isEmpty() || relation == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Fehler");
+            alert.setHeaderText(null);
+            alert.setContentText("Bitte füllen Sie alle erforderlichen Felder aus.");
+            alert.showAndWait();
+            return;
+        }
+
+        boolean insertSuccess = clientCRUD.insertClient(id, last, first, birthDate, genderValue, nation, relation);
+
+        if (insertSuccess) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Erfolg");
+            alert.setHeaderText(null);
+            alert.setContentText("Neuer Klient wurde erfolgreich hinzugefügt.");
+            alert.showAndWait();
+
+
+            lastname.clear();
+            firstname.clear();
+            date.setValue(null);
+            gender.setValue(null);
+            nationality.clear();
+            relationship.setValue(null);
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Fehler");
+            alert.setHeaderText(null);
+            alert.setContentText("Es gab ein Problem beim Hinzufügen des neuen Klienten. Bitte versuchen Sie es erneut.");
+            alert.showAndWait();
+        }
     }
+
 
     public void setClientDetails(Client client) {
         if (client != null) {
