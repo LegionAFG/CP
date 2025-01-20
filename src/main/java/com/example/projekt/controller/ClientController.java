@@ -3,6 +3,7 @@ package com.example.projekt.controller;
 
 import com.example.projekt.model.Appointment;
 import com.example.projekt.model.Client;
+import com.example.projekt.service.AlertService;
 import com.example.projekt.service.IdService;
 import com.example.projekt.service.NavigateService;
 import com.example.projekt.sql.AppointmentCRUD;
@@ -27,14 +28,17 @@ public class ClientController {
     DatabaseConnection dbConnection;
     AppointmentCRUD appointmentCRUD;
     IdService idService;
+    AlertService alertService;
 
 
     public ClientController() {
         this.dbConnection = new DatabaseConnection();
         this.navigateService = new NavigateService();
+        this.alertService = new AlertService();
         this.clientCRUD = new ClientCRUD(dbConnection);
         this.appointmentCRUD = new AppointmentCRUD(dbConnection);
         this.idService = new IdService(clientCRUD);
+
 
     }
 
@@ -154,14 +158,12 @@ public class ClientController {
             id = idService.generateUnique6DigitId();
 
             clientID.setText(id);
+
         } else {
 
             if (clientCRUD.isIdExists(id)) {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Warnung");
-                alert.setHeaderText(null);
-                alert.setContentText("Die eingegebene ID existiert bereits. Bitte wählen Sie eine andere ID.");
-                alert.showAndWait();
+
+                alertService.showWarningAlert("The ID you entered already exists. Please choose another ID.");
                 return;
             }
         }
@@ -175,23 +177,14 @@ public class ClientController {
 
 
         if (last.isEmpty() || first.isEmpty() || birthDate == null || genderValue == null || nation.isEmpty() || relation == null) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Fehler");
-            alert.setHeaderText(null);
-            alert.setContentText("Bitte füllen Sie alle erforderlichen Felder aus.");
-            alert.showAndWait();
+            alertService.showErrorAlert("Please fill out all required fields.");
             return;
         }
 
         boolean insertSuccess = clientCRUD.insertClient(id, last, first, birthDate, genderValue, nation, relation);
 
         if (insertSuccess) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Erfolg");
-            alert.setHeaderText(null);
-            alert.setContentText("Neuer Klient wurde erfolgreich hinzugefügt.");
-            alert.showAndWait();
-
+            alertService.showInfoAlert("New client was added successfully.");
 
             lastname.clear();
             firstname.clear();
@@ -199,15 +192,13 @@ public class ClientController {
             gender.setValue(null);
             nationality.clear();
             relationship.setValue(null);
+
         } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Fehler");
-            alert.setHeaderText(null);
-            alert.setContentText("Es gab ein Problem beim Hinzufügen des neuen Klienten. Bitte versuchen Sie es erneut.");
-            alert.showAndWait();
+
+            alertService.showErrorAlert("There was a problem adding the new client. Please try again.");
+
         }
     }
-
 
     public void setClientDetails(Client client) {
         if (client != null) {
