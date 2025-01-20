@@ -30,6 +30,23 @@ public class ClientController {
     IdService idService;
     AlertService alertService;
 
+    private static final String ALPHABETIC_PATTERN = "[a-zA-ZäöüÄÖÜß]+";
+
+    private void clearField() {
+        lastname.clear();
+        firstname.clear();
+        date.setValue(null);
+        gender.setValue(null);
+        nationality.clear();
+        relationship.setValue(null);
+    }
+
+    private String capitalizeFirstLetter(String input) {
+        if (input != null && !input.isEmpty()) {
+            return input.substring(0, 1).toUpperCase() + input.substring(1).toLowerCase();
+        }
+        return input;
+    }
 
     public ClientController() {
         this.dbConnection = new DatabaseConnection();
@@ -38,7 +55,6 @@ public class ClientController {
         this.clientCRUD = new ClientCRUD(dbConnection);
         this.appointmentCRUD = new AppointmentCRUD(dbConnection);
         this.idService = new IdService(clientCRUD);
-
 
     }
 
@@ -168,30 +184,31 @@ public class ClientController {
             }
         }
 
-        String last = lastname.getText().trim();
+        String last = lastname.getText().trim().toUpperCase();
         String first = firstname.getText().trim();
-        LocalDate birthDate = date.getValue();
+        first = capitalizeFirstLetter(first);
+        LocalDate birthdate = date.getValue();
         String genderValue = gender.getValue();
         String nation = nationality.getText().trim();
+        nation = capitalizeFirstLetter(nation);
         String relation = relationship.getValue();
 
 
-        if (last.isEmpty() || first.isEmpty() || birthDate == null || genderValue == null || nation.isEmpty() || relation == null) {
+        if (last.isEmpty() || first.isEmpty() || birthdate == null || genderValue == null || nation.isEmpty() || relation == null) {
             alertService.showErrorAlert("Please fill out all required fields.");
             return;
         }
 
-        boolean insertSuccess = clientCRUD.insertClient(id, last, first, birthDate, genderValue, nation, relation);
+        if (!last.matches(ALPHABETIC_PATTERN) || !first.matches(ALPHABETIC_PATTERN) || !nation.matches(ALPHABETIC_PATTERN)) {
+            alertService.showErrorAlert("The fields may only contain letters.");
+            return;
+        }
+
+        boolean insertSuccess = clientCRUD.insertClient(id, last, first, birthdate, genderValue, nation, relation);
 
         if (insertSuccess) {
             alertService.showInfoAlert("New client was added successfully.");
-
-            lastname.clear();
-            firstname.clear();
-            date.setValue(null);
-            gender.setValue(null);
-            nationality.clear();
-            relationship.setValue(null);
+            clearField();
 
         } else {
 
