@@ -69,6 +69,8 @@ public class ClientController {
     Button historiesButton;
     @FXML
     Button saveButton;
+    @FXML
+    Button deleteButton;
 
     @FXML
     TextField clientID;
@@ -215,6 +217,18 @@ public class ClientController {
             alertService.showErrorAlert("There was a problem adding the new client. Please try again.");
 
         }
+    }
+
+    @FXML
+    public void onDeleteButtonClick(ActionEvent event){
+
+        String id = clientID.getText().trim();
+        clientCRUD.deleteClient(id);
+
+        alertService.showInfoAlert("Klient wurde erfolgreich geloscht");
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        navigateService.navigate(stage, "home");
     }
 
     public void setClientDetails(Client client) {

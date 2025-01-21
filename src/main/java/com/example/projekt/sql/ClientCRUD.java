@@ -24,6 +24,7 @@ public class ClientCRUD {
     private static final String SELECT_SQL = "SELECT * FROM clients";
     private static final String CHECK_ID_SQL = "SELECT COUNT(*) AS count FROM clients WHERE ClientID = ?";
     private static final String SELECT_ID_SQL = "SELECT * FROM clients WHERE ClientID = ?";
+    private static final String DELETE_ID_SQL = "DELETE FROM clients WHERE ClientID = ?";
 
     public ClientCRUD(DatabaseConnection dbConnection) {
         this.dbConnection = dbConnection;
@@ -59,6 +60,33 @@ public class ClientCRUD {
             logger.log(Level.SEVERE, "Fehler beim Einfügen des Klienten: " + e.getMessage(), e);
             return false;
         }
+    }
+
+    public boolean deleteClient(String clientId) {
+        Connection connection = dbConnection.getConnection();
+
+        if (connection == null) {
+            logger.severe("Keine aktive Datenbankverbindung vorhanden!");
+            return false;
+        }
+
+        try (PreparedStatement statement = connection.prepareStatement(DELETE_ID_SQL)) {
+            statement.setString(1, clientId);
+
+            int rowsDeleted = statement.executeUpdate();
+
+            if(rowsDeleted > 0){
+                logger.info("Klient mit ID " + clientId + " erfolgreich gelöscht.");
+                return true;
+            }else{
+                logger.warning("Kein Klient mit ID " + clientId + " gefunden.");
+                return false;
+            }
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Fehler beim Einfügen des Klienten: " + e.getMessage(), e);
+            return  false;
+        }
+
     }
 
     public ObservableList<Client> getAllClients() {
