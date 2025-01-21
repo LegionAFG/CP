@@ -25,6 +25,8 @@ public class ClientCRUD {
     private static final String CHECK_ID_SQL = "SELECT COUNT(*) AS count FROM clients WHERE ClientID = ?";
     private static final String SELECT_ID_SQL = "SELECT * FROM clients WHERE ClientID = ?";
     private static final String DELETE_ID_SQL = "DELETE FROM clients WHERE ClientID = ?";
+    private static final String UPDATE_SQL = "UPDATE clients " + "SET Lastname = ?, Firstname = ?, Birthdate = ?, Gender = ?, " + "Nationality = ?, Relationship = ? " + "WHERE ClientID = ?";
+
 
     public ClientCRUD(DatabaseConnection dbConnection) {
         this.dbConnection = dbConnection;
@@ -62,6 +64,37 @@ public class ClientCRUD {
         }
     }
 
+    public boolean updateClient(String clientId, String lastname, String firstname, LocalDate birthdate, String gender, String nationality, String relationship){
+        Connection connection = dbConnection.getConnection();
+
+        if (connection == null) {
+            logger.severe("Keine aktive Datenbankverbindung vorhanden!");
+            return false;
+        }
+
+        try(PreparedStatement statement = connection.prepareStatement(UPDATE_SQL)){
+            statement.setString(1, lastname);
+            statement.setString(2, firstname);
+            statement.setDate(3, java.sql.Date.valueOf(birthdate));
+            statement.setString(4, gender);
+            statement.setString(5, nationality);
+            statement.setString(6, relationship);
+            statement.setString(7, clientId);
+
+            int rowUpdated = statement.executeUpdate();
+            if(rowUpdated > 0){
+                logger.info("Klient erfolgreich bearbeitet: "+ lastname + ", " + firstname + ", " + birthdate + ", " + gender + ", " + nationality + ", " + relationship);
+                return true;
+            } else {
+                logger.warning("Es wurde kein Datensatz bearbeitet.");
+                return false;
+            }
+            }catch (SQLException e) {
+            logger.log(Level.SEVERE, "Fehler beim bearbeiten des Klienten: " + e.getMessage(), e);
+            return false;
+        }
+    }
+
     public boolean deleteClient(String clientId) {
         Connection connection = dbConnection.getConnection();
 
@@ -75,16 +108,16 @@ public class ClientCRUD {
 
             int rowsDeleted = statement.executeUpdate();
 
-            if(rowsDeleted > 0){
+            if (rowsDeleted > 0) {
                 logger.info("Klient mit ID " + clientId + " erfolgreich gelöscht.");
                 return true;
-            }else{
+            } else {
                 logger.warning("Kein Klient mit ID " + clientId + " gefunden.");
                 return false;
             }
         } catch (SQLException e) {
             logger.log(Level.SEVERE, "Fehler beim Einfügen des Klienten: " + e.getMessage(), e);
-            return  false;
+            return false;
         }
 
     }

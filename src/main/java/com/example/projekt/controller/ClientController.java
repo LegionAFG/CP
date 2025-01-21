@@ -166,66 +166,67 @@ public class ClientController {
         navigateService.navigate(stage, "histories");
 
     }
-
     @FXML
-    public void onSaveButtonClick(ActionEvent ignoredEvent) {
+    public void onSaveButtonClick(ActionEvent event) {
+
         String id = clientID.getText().trim();
-
-        if (id.isEmpty()) {
-
-            id = idService.generateUnique6DigitId();
-
-            clientID.setText(id);
-
-        } else {
-
-            if (clientCRUD.isIdExists(id)) {
-
-                alertService.showWarningAlert("The ID you entered already exists. Please choose another ID.");
-                return;
-            }
-        }
-
         String last = lastname.getText().trim().toUpperCase();
-        String first = firstname.getText().trim();
-        first = capitalizeFirstLetter(first);
+        String first = capitalizeFirstLetter(firstname.getText().trim());
         LocalDate birthdate = date.getValue();
         String genderValue = gender.getValue();
-        String nation = nationality.getText().trim();
-        nation = capitalizeFirstLetter(nation);
+        String nation = capitalizeFirstLetter(nationality.getText().trim());
         String relation = relationship.getValue();
 
-
-        if (last.isEmpty() || first.isEmpty() || birthdate == null || genderValue == null || nation.isEmpty() || relation == null) {
+        if (last.isEmpty() || first.isEmpty() || birthdate == null ||
+                genderValue == null || nation.isEmpty() || relation == null) {
             alertService.showErrorAlert("Please fill out all required fields.");
             return;
         }
-
-        if (!last.matches(ALPHABETIC_PATTERN) || !first.matches(ALPHABETIC_PATTERN) || !nation.matches(ALPHABETIC_PATTERN)) {
+        if (!last.matches(ALPHABETIC_PATTERN) ||
+                !first.matches(ALPHABETIC_PATTERN) ||
+                !nation.matches(ALPHABETIC_PATTERN)) {
             alertService.showErrorAlert("The fields may only contain letters.");
             return;
         }
 
-        boolean insertSuccess = clientCRUD.insertClient(id, last, first, birthdate, genderValue, nation, relation);
+        if (id.isEmpty()) {
 
-        if (insertSuccess) {
-            alertService.showInfoAlert("New client was added successfully.");
-            clearField();
-
+            id = idService.generateUnique6DigitId();
+            boolean insertSuccess = clientCRUD.insertClient(id, last, first, birthdate, genderValue, nation, relation);
+            if (insertSuccess) {
+                alertService.showInfoAlert("New client was added successfully. ID: " + id);
+                clearField();
+            } else {
+                alertService.showErrorAlert("There was a problem adding the new client.");
+            }
         } else {
 
-            alertService.showErrorAlert("There was a problem adding the new client. Please try again.");
-
+            boolean updateSuccess = clientCRUD.updateClient(id,last, first, birthdate, genderValue, nation, relation);
+            if (updateSuccess) {
+                alertService.showInfoAlert("Client with ID " + id + " was updated successfully.");
+            } else {
+                alertService.showErrorAlert("Error updating the client with ID " + id + ".");
+            }
         }
     }
 
     @FXML
-    public void onDeleteButtonClick(ActionEvent event){
+    public void onDeleteButtonClick(ActionEvent event) {
 
         String id = clientID.getText().trim();
-        clientCRUD.deleteClient(id);
 
-        alertService.showInfoAlert("Klient wurde erfolgreich geloscht");
+        boolean deleted = clientCRUD.deleteClient(id);
+
+        if (id.isEmpty()) {
+            alertService.showWarningAlert("Please enter a valid client ID!");
+            return;
+        }
+        if (deleted) {
+            alertService.showInfoAlert("Client was successfully deleted");
+        } else {
+            alertService.showErrorAlert("No client found or deletion error");
+            return;
+        }
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         navigateService.navigate(stage, "home");
