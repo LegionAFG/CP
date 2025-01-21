@@ -18,7 +18,7 @@ public class ClientCRUD {
     private static final Logger logger = Logger.getLogger(ClientCRUD.class.getName());
 
     private final DatabaseConnection dbConnection;
-    private final IdService idService;
+    IdService idService;
 
     private static final String INSERT_SQL = "INSERT INTO clients (ClientID, Lastname, Firstname, Birthdate, Gender, Nationality, Relationship) VALUES (?, ?, ?, ?, ?, ?, ?)";
     private static final String SELECT_SQL = "SELECT * FROM clients";
@@ -26,7 +26,6 @@ public class ClientCRUD {
     private static final String SELECT_ID_SQL = "SELECT * FROM clients WHERE ClientID = ?";
     private static final String DELETE_ID_SQL = "DELETE FROM clients WHERE ClientID = ?";
     private static final String UPDATE_SQL = "UPDATE clients " + "SET Lastname = ?, Firstname = ?, Birthdate = ?, Gender = ?, " + "Nationality = ?, Relationship = ? " + "WHERE ClientID = ?";
-
 
     public ClientCRUD(DatabaseConnection dbConnection) {
         this.dbConnection = dbConnection;
@@ -64,7 +63,7 @@ public class ClientCRUD {
         }
     }
 
-    public boolean updateClient(String clientId, String lastname, String firstname, LocalDate birthdate, String gender, String nationality, String relationship){
+    public boolean updateClient(String clientId, String lastname, String firstname, LocalDate birthdate, String gender, String nationality, String relationship) {
         Connection connection = dbConnection.getConnection();
 
         if (connection == null) {
@@ -72,7 +71,7 @@ public class ClientCRUD {
             return false;
         }
 
-        try(PreparedStatement statement = connection.prepareStatement(UPDATE_SQL)){
+        try (PreparedStatement statement = connection.prepareStatement(UPDATE_SQL)) {
             statement.setString(1, lastname);
             statement.setString(2, firstname);
             statement.setDate(3, java.sql.Date.valueOf(birthdate));
@@ -82,14 +81,14 @@ public class ClientCRUD {
             statement.setString(7, clientId);
 
             int rowUpdated = statement.executeUpdate();
-            if(rowUpdated > 0){
-                logger.info("Klient erfolgreich bearbeitet: "+ lastname + ", " + firstname + ", " + birthdate + ", " + gender + ", " + nationality + ", " + relationship);
+            if (rowUpdated > 0) {
+                logger.info("Klient erfolgreich bearbeitet: " + lastname + ", " + firstname + ", " + birthdate + ", " + gender + ", " + nationality + ", " + relationship);
                 return true;
             } else {
                 logger.warning("Es wurde kein Datensatz bearbeitet.");
                 return false;
             }
-            }catch (SQLException e) {
+        } catch (SQLException e) {
             logger.log(Level.SEVERE, "Fehler beim bearbeiten des Klienten: " + e.getMessage(), e);
             return false;
         }

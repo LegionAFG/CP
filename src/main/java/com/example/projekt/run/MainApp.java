@@ -10,8 +10,6 @@ public class MainApp extends Application {
     NavigateService navigateService;
     DatabaseConnection databaseConnection = new DatabaseConnection();
 
-
-
     public MainApp() {
         this.navigateService = new NavigateService();
     }

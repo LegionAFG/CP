@@ -13,8 +13,7 @@ import java.util.logging.Logger;
 public class AppointmentCRUD {
 
     private static final Logger logger = Logger.getLogger(AppointmentCRUD.class.getName());
-
-
+    
     DatabaseConnection dbConnection;
 
     public AppointmentCRUD(DatabaseConnection dbConnection) {

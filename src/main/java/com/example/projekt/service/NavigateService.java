@@ -18,7 +18,6 @@ public class NavigateService {
 
     private static final Logger logger = Logger.getLogger(NavigateService.class.getName());
 
-
     private static final String HOME = "/com/example/projekt/Home.fxml";
     private static final String FILE = "/com/example/projekt/File.fxml";
     private static final String APPOINTMENT = "/com/example/projekt/Appointment.fxml";

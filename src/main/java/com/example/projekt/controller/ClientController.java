@@ -30,7 +30,9 @@ public class ClientController {
     IdService idService;
     AlertService alertService;
 
-    private static final String ALPHABETIC_PATTERN = "[a-zA-ZäöüÄÖÜß]+";
+    private static final String ALPHABETIC_PATTERN = "[a-zA-Z]+";
+
+    private boolean isEditMode = false;
 
     private void clearField() {
         lastname.clear();
@@ -59,7 +61,6 @@ public class ClientController {
     }
 
     @FXML
-
     Button homeButton;
     @FXML
     Button appointmentButton;
@@ -103,7 +104,6 @@ public class ClientController {
     @FXML
     TableColumn<Appointment, String> statusClientColumn;
 
-
     @FXML
     public void initialize() {
 
@@ -129,6 +129,43 @@ public class ClientController {
             });
             return row;
         });
+    }
+
+    public void setClientDetails(Client client) {
+        if (client != null) {
+            clientID.setText(client.getId());
+            firstname.setText(client.getFirstname());
+            lastname.setText(client.getLastname());
+            nationality.setText(client.getNationality());
+            date.setValue(client.getBirthdate());
+            gender.setValue(client.getGender());
+            relationship.setValue(client.getRelationship());
+
+            setEditMode(true);
+
+            ObservableList<Appointment> appointmentList = appointmentCRUD.getAppointmentsByClientId(clientID.getText());
+
+            appointmentDateClientColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+            appointmentTimeClientColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
+            institutionClientColumn.setCellValueFactory((new PropertyValueFactory<>("institution")));
+            appointmentCityColumn.setCellValueFactory(new PropertyValueFactory<>("city"));
+            appointmentStreetColumn.setCellValueFactory(new PropertyValueFactory<>("street"));
+            statusClientColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
+
+            appointmentTableClient.setItems(appointmentList);
+        }
+
+    }
+
+    public void setEditMode(boolean editMode) {
+        this.isEditMode = editMode;
+
+        if(editMode){
+            saveButton.setText("UPDATE");
+            saveButton.setStyle("-fx-background-color: #008689; -fx-text-fill: #FFFFFF;");
+        }else{
+            saveButton.setText("SAVE");
+        }
     }
 
     @FXML
@@ -167,8 +204,7 @@ public class ClientController {
 
     }
     @FXML
-    public void onSaveButtonClick(ActionEvent event) {
-
+    public void onSaveButtonClick(ActionEvent ignoredEvent) {
         String id = clientID.getText().trim();
         String last = lastname.getText().trim().toUpperCase();
         String first = capitalizeFirstLetter(firstname.getText().trim());
@@ -182,6 +218,7 @@ public class ClientController {
             alertService.showErrorAlert("Please fill out all required fields.");
             return;
         }
+
         if (!last.matches(ALPHABETIC_PATTERN) ||
                 !first.matches(ALPHABETIC_PATTERN) ||
                 !nation.matches(ALPHABETIC_PATTERN)) {
@@ -189,19 +226,23 @@ public class ClientController {
             return;
         }
 
-        if (id.isEmpty()) {
+        if (!isEditMode) {
 
-            id = idService.generateUnique6DigitId();
-            boolean insertSuccess = clientCRUD.insertClient(id, last, first, birthdate, genderValue, nation, relation);
+            boolean insertSuccess = clientCRUD.insertClient(
+                    id, last, first, birthdate, genderValue, nation, relation
+            );
             if (insertSuccess) {
                 alertService.showInfoAlert("New client was added successfully. ID: " + id);
                 clearField();
+
             } else {
                 alertService.showErrorAlert("There was a problem adding the new client.");
             }
         } else {
 
-            boolean updateSuccess = clientCRUD.updateClient(id,last, first, birthdate, genderValue, nation, relation);
+            boolean updateSuccess = clientCRUD.updateClient(
+                    id, last, first, birthdate, genderValue, nation, relation
+            );
             if (updateSuccess) {
                 alertService.showInfoAlert("Client with ID " + id + " was updated successfully.");
             } else {
@@ -232,27 +273,4 @@ public class ClientController {
         navigateService.navigate(stage, "home");
     }
 
-    public void setClientDetails(Client client) {
-        if (client != null) {
-            clientID.setText(client.getId());
-            firstname.setText(client.getFirstname());
-            lastname.setText(client.getLastname());
-            nationality.setText(client.getNationality());
-            date.setValue(client.getBirthdate());
-            gender.setValue(client.getGender());
-            relationship.setValue(client.getRelationship());
-
-            ObservableList<Appointment> appointmentList = appointmentCRUD.getAppointmentsByClientId(clientID.getText());
-
-            appointmentDateClientColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
-            appointmentTimeClientColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
-            institutionClientColumn.setCellValueFactory((new PropertyValueFactory<>("institution")));
-            appointmentCityColumn.setCellValueFactory(new PropertyValueFactory<>("city"));
-            appointmentStreetColumn.setCellValueFactory(new PropertyValueFactory<>("street"));
-            statusClientColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
-
-            appointmentTableClient.setItems(appointmentList);
-        }
-
-    }
 }
