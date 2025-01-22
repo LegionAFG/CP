@@ -21,8 +21,16 @@ public class AppointmentCRUD {
     }
 
     private static final String INSERT_SQL = "INSERT INTO appointments (ClientID, AppointmentDate, AppointmentTime,Institution,City,Street,Status) VALUES (?,?,?,?,?,?,?)";
+    private static final String SELECT_ID_SQL = "SELECT * FROM appointments WHERE clientID = ?";
+    private static final String SELECT_APPOINTMENT_ID_SQL = "SELECT AppointmentID FROM appointments WHERE ClientID = ? AND AppointmentDate = ? AND AppointmentTime = ?";
+    private static final String UPDATE_SQL;
     String SELECT_SQL;
-    private static final  String SELECT_ID_SQL = "SELECT * FROM appointments WHERE clientID = ?";
+
+    static {
+        UPDATE_SQL =  "UPDATE appointments " +
+                "SET AppointmentDate = ?, AppointmentTime = ?, Institution = ?, City = ?, Street = ?, Status = ? " +
+                "WHERE ClientID = ? AND AppointmentID = ?";
+    }
 
     {
         SELECT_SQL = "SELECT a.ClientID, " +
@@ -38,13 +46,13 @@ public class AppointmentCRUD {
                 "JOIN clients c ON a.ClientID = c.ClientID";
     }
 
-    public void insertAppointment(String clientId, LocalDate date, String time, String institution, String city, String street, String status) {
+    public boolean insertAppointment(String clientId, LocalDate date, String time, String institution, String city, String street, String status) {
 
         Connection connection = dbConnection.getConnection();
 
         if (connection == null) {
             logger.severe("Keine aktive Datenbankverbindung vorhanden!");
-            return;
+            return false;
         }
 
         try (PreparedStatement statement = connection.prepareStatement(INSERT_SQL)) {
@@ -65,7 +73,42 @@ public class AppointmentCRUD {
         } catch (SQLException e) {
             logger.severe("Fehler beim Einfügen des Termines: " + e.getMessage());
         }
+        return false;
     }
+
+    public boolean updateAppointment(int appointmentId,String clientId, LocalDate appointmentDate, String appointmentTime,
+                                     String institution, String city, String street, String status) {
+        Connection connection = dbConnection.getConnection();
+
+        if (connection == null) {
+            logger.severe("Keine aktive Datenbankverbindung vorhanden!");
+            return false;
+        }
+
+        try (PreparedStatement statement = connection.prepareStatement(UPDATE_SQL)) {
+
+            statement.setDate(1, java.sql.Date.valueOf(appointmentDate));
+            statement.setString(2, appointmentTime);
+            statement.setString(3, institution);
+            statement.setString(4, city);
+            statement.setString(5, street);
+            statement.setString(6, status);
+            statement.setString(7, clientId);
+            statement.setInt(8, appointmentId);
+
+            int rowsUpdated = statement.executeUpdate();
+            if (rowsUpdated > 0) {
+                logger.info("Termin erfolgreich aktualisiert: ClientID = " + clientId);
+                return true;
+            } else {
+                logger.warning("Kein Datensatz aktualisiert. Überprüfen Sie die ClientID: " + clientId);
+            }
+        } catch (SQLException e) {
+            logger.severe("Fehler beim Aktualisieren des Termins: " + e.getMessage());
+        }
+        return false;
+    }
+
 
     public ObservableList<Appointment> getAllAppointments() {
         ObservableList<Appointment> appointmentList = FXCollections.observableArrayList();
@@ -92,7 +135,6 @@ public class AppointmentCRUD {
                 Appointment appointment = new Appointment(clientID, lastname, firstname, date, time, institution, city, street, status);
                 appointmentList.add(appointment);
 
-
             }
 
         } catch (SQLException e) {
@@ -101,18 +143,18 @@ public class AppointmentCRUD {
         return appointmentList;
     }
 
-    public ObservableList<Appointment> getAppointmentsByClientId(String clientId){
+    public ObservableList<Appointment> getAppointmentsByClientId(String clientId) {
         ObservableList<Appointment> appointmentList = FXCollections.observableArrayList();
 
-        try{
+        try {
             Connection connection = dbConnection.getConnection();
 
             PreparedStatement statement = connection.prepareStatement(SELECT_ID_SQL);
-            statement.setString(1,clientId);
+            statement.setString(1, clientId);
 
             ResultSet rs = statement.executeQuery();
 
-            while (rs.next()){
+            while (rs.next()) {
 
                 String id = rs.getString("ClientID");
                 String street = rs.getString("street");
@@ -122,7 +164,7 @@ public class AppointmentCRUD {
                 String institution = rs.getString("institution");
                 String status = rs.getString("status");
 
-                Appointment appointment = new Appointment( id,date,time,institution,city,street,status);
+                Appointment appointment = new Appointment(id, date, time, institution, city, street, status);
                 appointment.setId(id);
                 appointment.setStreet(street);
                 appointment.setCity(city);
@@ -131,7 +173,7 @@ public class AppointmentCRUD {
                 appointment.setInstitution(institution);
                 appointment.setStatus(status);
 
-               appointmentList.add(appointment);
+                appointmentList.add(appointment);
 
             }
             statement.close();
@@ -143,6 +185,26 @@ public class AppointmentCRUD {
         return appointmentList;
 
     }
+
+    public Integer getAppointmentId(String clientId, LocalDate date, String time) {
+
+        try (Connection connection = dbConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SELECT_APPOINTMENT_ID_SQL)) {
+
+            statement.setString(1, clientId);
+            statement.setDate(2, java.sql.Date.valueOf(date));
+            statement.setString(3, time);
+
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt("AppointmentID");
+            }
+        } catch (SQLException e) {
+            logger.severe("Fehler beim Abrufen der AppointmentID: " + e.getMessage());
+        }
+        return null;
+    }
+
 
 
 }
