@@ -55,9 +55,6 @@ public class Appointment {
         this.status = status;
     }
 
-
-    // Getter & Setter
-
     public String getId() {
         return id;
     }

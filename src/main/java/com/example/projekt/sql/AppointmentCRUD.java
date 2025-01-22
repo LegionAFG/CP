@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 public class AppointmentCRUD {
 
     private static final Logger logger = Logger.getLogger(AppointmentCRUD.class.getName());
-    
+
     DatabaseConnection dbConnection;
 
     public AppointmentCRUD(DatabaseConnection dbConnection) {
@@ -38,7 +38,7 @@ public class AppointmentCRUD {
                 "JOIN clients c ON a.ClientID = c.ClientID";
     }
 
-    public void insertAppointment(String clientId, LocalDate date, LocalTime time, String institution, String city, String street, String status) {
+    public void insertAppointment(String clientId, LocalDate date, String time, String institution, String city, String street, String status) {
 
         Connection connection = dbConnection.getConnection();
 
@@ -50,7 +50,7 @@ public class AppointmentCRUD {
         try (PreparedStatement statement = connection.prepareStatement(INSERT_SQL)) {
             statement.setString(1, clientId);
             statement.setDate(2, java.sql.Date.valueOf(date));
-            statement.setTime(3, java.sql.Time.valueOf(time));
+            statement.setString(3, time);
             statement.setString(4, institution);
             statement.setString(5, city);
             statement.setString(6, street);

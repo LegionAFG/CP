@@ -178,15 +178,20 @@ public class ClientController {
 
     @FXML
     public void onAppointmentButtonClick(ActionEvent event) {
-
         String clientId = clientID.getText();
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
         ObservableList<Appointment> appointments = appointmentCRUD.getAppointmentsByClientId(clientId);
 
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        if (appointments == null || appointments.isEmpty()) {
+
+           navigateService.navigateClientId(stage,clientId);
+           return;
+        }
 
         navigateService.navigateAppointmentDetails(stage, appointments);
     }
+
 
     @FXML
     public void onFileButtonClick(ActionEvent event) {

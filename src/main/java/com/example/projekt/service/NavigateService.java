@@ -18,6 +18,10 @@ public class NavigateService {
 
     private static final Logger logger = Logger.getLogger(NavigateService.class.getName());
 
+
+
+
+
     private static final String HOME = "/com/example/projekt/Home.fxml";
     private static final String FILE = "/com/example/projekt/File.fxml";
     private static final String APPOINTMENT = "/com/example/projekt/Appointment.fxml";
@@ -53,6 +57,33 @@ public class NavigateService {
             showErrorDialog("Seitenladefehler", "Die Seite konnte nicht geladen werden.");
         }
 
+    }
+
+    public void navigateClientId(Stage stage,String id) {
+        try {
+
+            FXMLLoader fxmlLoader = new FXMLLoader(NavigateService.class.getResource(APPOINTMENT));
+
+            Scene scene = new Scene(fxmlLoader.load(), 800, 600);
+
+            AppointmentController controller = fxmlLoader.getController();
+
+            controller.setClientId(id);
+
+            stage.setTitle("Case Pilot");
+            stage.setScene(scene);
+            stage.show();
+            stage.setResizable(false);
+
+        } catch (IllegalArgumentException e) {
+
+            logger.severe("Navigation fehlgeschlagen: " + e.getMessage());
+            showErrorDialog("Navigation fehlgeschlagen", e.getMessage());
+        } catch (IOException e) {
+
+            logger.severe("Fehler beim Laden der Seite: " + e.getMessage());
+            showErrorDialog("Seitenladefehler", "Die Seite konnte nicht geladen werden.");
+        }
     }
 
     public void navigateClientDetails(Stage stage, Client client ){

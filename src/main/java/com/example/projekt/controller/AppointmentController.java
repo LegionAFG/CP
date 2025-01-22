@@ -24,6 +24,13 @@ public class AppointmentController {
     DatabaseConnection dbConnection;
     AppointmentCRUD appointmentCRUD;
 
+    private String clientId;
+
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
+        clientID.setText(clientId);
+    }
+
     public AppointmentController() {
 
         this.dbConnection = new DatabaseConnection();
@@ -37,6 +44,8 @@ public class AppointmentController {
     Button backButton;
     @FXML
     Button homeButton;
+    @FXML
+    Button saveButton;
 
     @FXML
     TextField clientID;
@@ -46,6 +55,8 @@ public class AppointmentController {
     TextField city;
     @FXML
     TextField street;
+    @FXML
+    ChoiceBox<String> status;
     @FXML
     TextField time;
     @FXML
@@ -73,12 +84,30 @@ public class AppointmentController {
 
         clientID.setDisable(true);
 
+        status.getItems().addAll("Cancelled", "Scheduled", "Completed");
+        status.setValue("Pleas choose");
+
+
+    }
+
+    public void onSaveButtonClick(ActionEvent event) {
+
+        String idAppointment = clientID.getText();
+        String institutAppointment = institution.getText();
+        String cityAppointment = city.getText();
+        String streetAppointment = street.getText();
+        LocalDate localDate = date.getValue();
+        String timeAppointment = time.getText();
+        String statusAppointment = status.getValue();
+
+
+        appointmentCRUD.insertAppointment(idAppointment, localDate, timeAppointment, institutAppointment, cityAppointment, streetAppointment, statusAppointment);
+
 
     }
 
     @FXML
     public void onBackButtonClick(ActionEvent event) {
-
 
 
         ObservableList<Client> clients = clientCRUD.getClientByClientId(clientID.getText());
@@ -91,7 +120,7 @@ public class AppointmentController {
         Client selectedClient = clients.getFirst();
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        navigateService.navigateClientDetails(stage,selectedClient);
+        navigateService.navigateClientDetails(stage, selectedClient);
     }
 
     @FXML
@@ -102,43 +131,56 @@ public class AppointmentController {
     }
 
     public void setAppointmentDetails(Appointment appointment) {
-        if (appointment != null) {
-
-            clientID.setText(appointment.getId());
-            institution.setText(appointment.getInstitution());
-            city.setText(appointment.getCity());
-            street.setText(appointment.getStreet());
-            date.setValue(appointment.getDate());
-            time.setText(String.valueOf(appointment.getTime()));
-
-
-            ObservableList<Appointment> appointmentList = appointmentCRUD.getAppointmentsByClientId(clientID.getText());
-
-            appointmentDateClientColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
-            appointmentTimeClientColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
-            institutionClientColumn.setCellValueFactory((new PropertyValueFactory<>("institution")));
-            appointmentCityColumn.setCellValueFactory(new PropertyValueFactory<>("city"));
-            appointmentStreetColumn.setCellValueFactory(new PropertyValueFactory<>("street"));
-            appointmentStatusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
-
-            appointmentTableClient.setItems(appointmentList);
+        if (appointment == null) {
+            System.out.println("Kein gültiger Termin übergeben.");
+            return;
         }
 
+        clientID.setText(appointment.getId());
+        institution.setText(appointment.getInstitution());
+        city.setText(appointment.getCity());
+        street.setText(appointment.getStreet());
+        date.setValue(appointment.getDate());
+        time.setText(String.valueOf(appointment.getTime()));
+
+
+        ObservableList<Appointment> appointmentList = appointmentCRUD.getAppointmentsByClientId(clientID.getText());
+
+        if (appointmentList == null || appointmentList.isEmpty()) {
+            System.out.println("Keine Termine für Client-ID gefunden: " + clientID.getText());
+            return;
+        }
+
+
+        appointmentDateClientColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+        appointmentTimeClientColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
+        institutionClientColumn.setCellValueFactory(new PropertyValueFactory<>("institution"));
+        appointmentCityColumn.setCellValueFactory(new PropertyValueFactory<>("city"));
+        appointmentStreetColumn.setCellValueFactory(new PropertyValueFactory<>("street"));
+        appointmentStatusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
+
+
+        appointmentTableClient.setItems(appointmentList);
     }
+
+
     public void setAppointments(ObservableList<Appointment> appointmentList) {
-        if (appointmentList != null) {
-
-            Appointment firstAppointment = appointmentList.getFirst();
-            clientID.setText(firstAppointment.getId());
-
-            appointmentDateClientColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
-            appointmentTimeClientColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
-            institutionClientColumn.setCellValueFactory((new PropertyValueFactory<>("institution")));
-            appointmentCityColumn.setCellValueFactory(new PropertyValueFactory<>("city"));
-            appointmentStreetColumn.setCellValueFactory(new PropertyValueFactory<>("street"));
-            appointmentStatusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
-
-            appointmentTableClient.setItems(appointmentList);
+        if (appointmentList == null || appointmentList.isEmpty()) {
+            System.out.println("Die übergebene Terminliste ist leer oder null.");
+            return;
         }
+
+        Appointment firstAppointment = appointmentList.get(0);
+        clientID.setText(firstAppointment.getId());
+
+        appointmentDateClientColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+        appointmentTimeClientColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
+        institutionClientColumn.setCellValueFactory(new PropertyValueFactory<>("institution"));
+        appointmentCityColumn.setCellValueFactory(new PropertyValueFactory<>("city"));
+        appointmentStreetColumn.setCellValueFactory(new PropertyValueFactory<>("street"));
+        appointmentStatusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
+
+        appointmentTableClient.setItems(appointmentList);
     }
+
 }
