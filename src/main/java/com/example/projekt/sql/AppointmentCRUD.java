@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,6 +17,9 @@ public class AppointmentCRUD {
 
     DatabaseConnection dbConnection;
 
+    private static final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+
+
     public AppointmentCRUD(DatabaseConnection dbConnection) {
         this.dbConnection = dbConnection;
     }
@@ -24,16 +28,18 @@ public class AppointmentCRUD {
     private static final String SELECT_ID_SQL = "SELECT * FROM appointments WHERE clientID = ?";
     private static final String SELECT_APPOINTMENT_ID_SQL = "SELECT AppointmentID FROM appointments WHERE ClientID = ? AND AppointmentDate = ? AND AppointmentTime = ?";
     private static final String UPDATE_SQL;
+    private static final String DELETE_ID_SQL = "DELETE FROM appointments WHERE AppointmentID = ?";
     String SELECT_SQL;
 
     static {
-        UPDATE_SQL =  "UPDATE appointments " +
+        UPDATE_SQL = "UPDATE appointments " +
                 "SET AppointmentDate = ?, AppointmentTime = ?, Institution = ?, City = ?, Street = ?, Status = ? " +
                 "WHERE ClientID = ? AND AppointmentID = ?";
     }
 
     {
-        SELECT_SQL = "SELECT a.ClientID, " +
+        SELECT_SQL = "SELECT a.AppointmentID, " +
+                "       a.ClientID, " +
                 "       a.AppointmentDate, " +
                 "       a.AppointmentTime, " +
                 "       a.Institution, " +
@@ -46,8 +52,7 @@ public class AppointmentCRUD {
                 "JOIN clients c ON a.ClientID = c.ClientID";
     }
 
-    public boolean insertAppointment(String clientId, LocalDate date, String time, String institution, String city, String street, String status) {
-
+    public boolean insertAppointment(String clientId, LocalDate date, LocalTime time, String institution, String city, String street, String status) {
         Connection connection = dbConnection.getConnection();
 
         if (connection == null) {
@@ -58,7 +63,7 @@ public class AppointmentCRUD {
         try (PreparedStatement statement = connection.prepareStatement(INSERT_SQL)) {
             statement.setString(1, clientId);
             statement.setDate(2, java.sql.Date.valueOf(date));
-            statement.setString(3, time);
+            statement.setString(3, time.format(timeFormatter)); // Zeit im Format HH:mm
             statement.setString(4, institution);
             statement.setString(5, city);
             statement.setString(6, street);
@@ -66,7 +71,8 @@ public class AppointmentCRUD {
 
             int rowsInserted = statement.executeUpdate();
             if (rowsInserted > 0) {
-                logger.info("Termin erfolgreich eingefügt: " + clientId + ", " + date + "," + time + "," + institution + "," + city + "," + street + "," + status);
+                logger.info("Termin erfolgreich eingefügt: " + clientId + ", " + date + ", " + time.format(timeFormatter) + ", " + institution + ", " + city + ", " + street + ", " + status);
+                return true;
             } else {
                 logger.warning("Es wurde kein Datensatz eingefügt.");
             }
@@ -76,8 +82,7 @@ public class AppointmentCRUD {
         return false;
     }
 
-    public boolean updateAppointment(int appointmentId,String clientId, LocalDate appointmentDate, String appointmentTime,
-                                     String institution, String city, String street, String status) {
+    public boolean updateAppointment(int appointmentId, int clientId, LocalDate appointmentDate, LocalTime appointmentTime, String institution, String city, String street, String status) {
         Connection connection = dbConnection.getConnection();
 
         if (connection == null) {
@@ -86,14 +91,13 @@ public class AppointmentCRUD {
         }
 
         try (PreparedStatement statement = connection.prepareStatement(UPDATE_SQL)) {
-
             statement.setDate(1, java.sql.Date.valueOf(appointmentDate));
-            statement.setString(2, appointmentTime);
+            statement.setString(2, appointmentTime.format(timeFormatter)); // Zeit im Format HH:mm
             statement.setString(3, institution);
             statement.setString(4, city);
             statement.setString(5, street);
             statement.setString(6, status);
-            statement.setString(7, clientId);
+            statement.setInt(7, clientId);
             statement.setInt(8, appointmentId);
 
             int rowsUpdated = statement.executeUpdate();
@@ -109,7 +113,6 @@ public class AppointmentCRUD {
         return false;
     }
 
-
     public ObservableList<Appointment> getAllAppointments() {
         ObservableList<Appointment> appointmentList = FXCollections.observableArrayList();
         Connection connection = dbConnection.getConnection();
@@ -122,6 +125,7 @@ public class AppointmentCRUD {
              ResultSet resultSet = statement.executeQuery()) {
 
             while (resultSet.next()) {
+                int appointmentID = resultSet.getInt("AppointmentID");
                 String clientID = resultSet.getString("ClientID");
                 String lastname = resultSet.getString("Lastname");
                 String firstname = resultSet.getString("Firstname");
@@ -132,7 +136,7 @@ public class AppointmentCRUD {
                 String street = resultSet.getString("Street");
                 String status = resultSet.getString("Status");
 
-                Appointment appointment = new Appointment(clientID, lastname, firstname, date, time, institution, city, street, status);
+                Appointment appointment = new Appointment(clientID,appointmentID, lastname, firstname, date, time, institution, city, street, status);
                 appointmentList.add(appointment);
 
             }
@@ -157,6 +161,7 @@ public class AppointmentCRUD {
             while (rs.next()) {
 
                 String id = rs.getString("ClientID");
+                int appointmentId = rs.getInt("AppointmentID");
                 String street = rs.getString("street");
                 String city = rs.getString("city");
                 LocalDate date = rs.getDate("appointmentDate").toLocalDate();
@@ -164,7 +169,7 @@ public class AppointmentCRUD {
                 String institution = rs.getString("institution");
                 String status = rs.getString("status");
 
-                Appointment appointment = new Appointment(id, date, time, institution, city, street, status);
+                Appointment appointment = new Appointment(id,appointmentId,date, time, institution, city, street, status);
                 appointment.setId(id);
                 appointment.setStreet(street);
                 appointment.setCity(city);
@@ -179,25 +184,26 @@ public class AppointmentCRUD {
             statement.close();
             connection.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Fehler beim Abrufen der Termine mit ClientID", e);
         }
 
         return appointmentList;
 
     }
 
-    public Integer getAppointmentId(String clientId, LocalDate date, String time) {
-
+    public Integer getAppointmentId(String clientId, LocalDate date, LocalTime time) {
         try (Connection connection = dbConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(SELECT_APPOINTMENT_ID_SQL)) {
 
-            statement.setString(1, clientId);
+            statement.setInt(1, Integer.parseInt(clientId)); // ClientID als int
             statement.setDate(2, java.sql.Date.valueOf(date));
-            statement.setString(3, time);
+            statement.setString(3, time.format(timeFormatter)); // Zeit im Format HH:mm
 
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 return resultSet.getInt("AppointmentID");
+            } else {
+                logger.warning("Keine Ergebnisse für ClientID=" + clientId + ", Date=" + date + ", Time=" + time.format(timeFormatter));
             }
         } catch (SQLException e) {
             logger.severe("Fehler beim Abrufen der AppointmentID: " + e.getMessage());
@@ -205,8 +211,32 @@ public class AppointmentCRUD {
         return null;
     }
 
+    public boolean deleteAppointment(int appointmentId) {
+        Connection connection = dbConnection.getConnection();
 
+        if (connection == null) {
+            logger.severe("Keine aktive Datenbankverbindung vorhanden!");
+            return false;
+        }
 
+        try (PreparedStatement statement = connection.prepareStatement(DELETE_ID_SQL)) {
+            statement.setInt(1, appointmentId);
+
+            int rowDeleted = statement.executeUpdate();
+
+            if (rowDeleted > 0) {
+                logger.info("Termin mit ID " + appointmentId + " erfolgreich gelöscht.");
+                return true;
+            } else {
+                logger.warning("Kein Termin mit ID " + appointmentId + " gefunden.");
+                return false;
+            }
+
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Fehler beim löschen des Termines: " + e.getMessage(), e);
+            return false;
+        }
+    }
 }
 
 

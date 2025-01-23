@@ -32,6 +32,15 @@ public class AppointmentController {
     private static final Logger logger = Logger.getLogger(AppointmentController.class.getName());
     private boolean isEditMode = false;
 
+    private void clearField() {
+      institution.clear();
+      city.clear();
+      street.clear();
+      status.setValue("Please choose");
+      time.clear();
+      date.setValue(null);
+    }
+
 
     public void setClientId(String clientId) {
         this.clientId = clientId;
@@ -54,6 +63,8 @@ public class AppointmentController {
     Button homeButton;
     @FXML
     Button saveButton;
+    @FXML
+    Button deleteButton;
 
     @FXML
     TextField clientID;
@@ -94,6 +105,8 @@ public class AppointmentController {
         status.getItems().addAll("Cancelled", "Scheduled", "Completed");
         status.setValue("Pleas choose");
 
+        appointmentTableClient.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
     }
 
     public void onSaveButtonClick(ActionEvent ignoredEvent) {
@@ -119,7 +132,7 @@ public class AppointmentController {
 
         if (!isEditMode) {
 
-            boolean insertSuccess = appointmentCRUD.insertAppointment(idAppointment, localDate, timeAppointment, institutAppointment,
+            boolean insertSuccess = appointmentCRUD.insertAppointment(idAppointment, localDate, LocalTime.parse(timeAppointment), institutAppointment,
                     cityAppointment, streetAppointment, statusAppointment);
             if (insertSuccess) {
                 alertService.showInfoAlert("New appointment was added successfully.");
@@ -128,13 +141,13 @@ public class AppointmentController {
             }
         } else {
 
-            Integer appointmentId = appointmentCRUD.getAppointmentId(idAppointment, localDate, timeAppointment);
+            Integer appointmentId = appointmentCRUD.getAppointmentId(idAppointment, localDate, LocalTime.parse(timeAppointment));
             if (appointmentId == null) {
                 alertService.showErrorAlert("Error: AppointmentID could not be retrieved from the database.");
                 return;
             }
 
-            boolean updateSuccess = appointmentCRUD.updateAppointment(appointmentId, idAppointment, localDate, timeAppointment,
+            boolean updateSuccess = appointmentCRUD.updateAppointment(appointmentId, Integer.parseInt(idAppointment), localDate, LocalTime.parse(timeAppointment),
                     institutAppointment, cityAppointment, streetAppointment, statusAppointment);
             if (updateSuccess) {
                 alertService.showInfoAlert("Appointment updated successfully.");
@@ -142,11 +155,40 @@ public class AppointmentController {
                 alertService.showErrorAlert("Error updating the Appointment.");
             }
         }
+        refreshAppointmentList();
+        clearField();
+    }
+
+    @FXML
+    public void onDeleteButtonClick(ActionEvent event) {
+        Appointment selectedAppointment = appointmentTableClient.getSelectionModel().getSelectedItem();
+
+        if (selectedAppointment == null) {
+            alertService.showErrorAlert("No date selected! Please select a date.");
+            return;
+        }
+
+        boolean confirmed = alertService.showConfirmation("Are you sure you want to delete the selected appointment?",
+                "This action cannot be reversed.");
+
+        if (!confirmed) {
+            return;
+        }
+
+        boolean isDeleted = appointmentCRUD.deleteAppointment(selectedAppointment.getAppointmentId());
+
+        if (isDeleted) {
+            alertService.showInfoAlert("Der Termin wurde erfolgreich gelöscht.");
+            refreshAppointmentList();
+            clearField();
+        } else {
+            alertService.showErrorAlert("Fehler beim Löschen des Termins. Bitte versuchen Sie es erneut.");
+        }
+
     }
 
     @FXML
     public void onBackButtonClick(ActionEvent event) {
-
 
         ObservableList<Client> clients = clientCRUD.getClientByClientId(clientID.getText());
 
@@ -203,11 +245,11 @@ public class AppointmentController {
     public void setEditMode(boolean editMode) {
         this.isEditMode = editMode;
 
-        if(editMode){
+        if (editMode) {
 
             saveButton.setText("UPDATE");
             saveButton.setStyle("-fx-background-color: #008689; -fx-text-fill: #FFFFFF;");
-        }else{
+        } else {
             saveButton.setText("SAVE");
         }
     }
@@ -231,4 +273,10 @@ public class AppointmentController {
         appointmentTableClient.setItems(appointmentList);
     }
 
+    private void refreshAppointmentList() {
+        ObservableList<Appointment> updatedList = appointmentCRUD.getAppointmentsByClientId(clientID.getText());
+        if (updatedList != null) {
+            appointmentTableClient.setItems(updatedList);
+        }
+    }
 }

@@ -115,7 +115,7 @@ public class ClientCRUD {
                 return false;
             }
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, "Fehler beim Einfügen des Klienten: " + e.getMessage(), e);
+            logger.log(Level.SEVERE, "Fehler beim löschen des Klienten: " + e.getMessage(), e);
             return false;
         }
 

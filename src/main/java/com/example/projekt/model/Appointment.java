@@ -6,6 +6,7 @@ import java.time.LocalTime;
 public class Appointment {
 
     private String id;
+    private int appointmentId;
     private LocalDate date;
     private LocalTime time;
     private String institution;
@@ -15,7 +16,7 @@ public class Appointment {
     private String lastname;
     private String firstname;
 
-    public Appointment(String id,
+    public Appointment(String id,int appointmentId,
                        String lastname,
                         String firstname,
                        LocalDate date,
@@ -27,6 +28,7 @@ public class Appointment {
                       )
     {
         this.id = id;
+        this.appointmentId = appointmentId;
         this.date = date;
         this.time = time;
         this.institution = institution;
@@ -38,6 +40,7 @@ public class Appointment {
     }
 
     public Appointment(String id,
+                       int appointmentId,
                        LocalDate date,
                        LocalTime time,
                        String institution,
@@ -47,6 +50,7 @@ public class Appointment {
     )
     {
         this.id = id;
+        this.appointmentId = appointmentId;
         this.date = date;
         this.time = time;
         this.institution = institution;
@@ -60,6 +64,13 @@ public class Appointment {
     }
     public void setId(String id) {
         this.id = id;
+    }
+
+    public int getAppointmentId() {
+        return appointmentId;
+    }
+    public void setAppointmentId(String id) {
+        this.appointmentId = appointmentId;
     }
 
     public LocalDate getDate() {
