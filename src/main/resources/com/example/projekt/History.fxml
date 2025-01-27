@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projekt.controller.HistoriesController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projekt.controller.HistoryController">
     <left>
         <AnchorPane prefHeight="530.0" prefWidth="168.0" style="-fx-background-color: #3b5998;" BorderPane.alignment="CENTER">
             <children>
@@ -35,7 +35,15 @@
                                 <Insets bottom="10.0" />
                             </VBox.margin>
                         </Button>
-                        <TextField prefHeight="30.0" prefWidth="151.0" promptText="Titel...">
+                  <TextField fx:id="clintIdTextFiled" prefHeight="30.0" prefWidth="151.0" promptText="Client ID...">
+                     <font>
+                        <Font name="System Bold" size="17.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </TextField>
+                        <TextField fx:id="titleField" prefHeight="30.0" prefWidth="151.0" promptText="Titel...">
                             <font>
                                 <Font name="System Bold" size="17.0" />
                             </font>
@@ -43,7 +51,7 @@
                                 <Insets bottom="10.0" />
                             </VBox.margin>
                         </TextField>
-                        <TextField prefHeight="30.0" prefWidth="151.0" promptText="Time...">
+                        <TextField fx:id="historyTime" prefHeight="30.0" prefWidth="151.0" promptText="Time...">
                             <font>
                                 <Font name="System Bold" size="17.0" />
                             </font>
@@ -51,12 +59,12 @@
                                 <Insets bottom="10.0" />
                             </VBox.margin>
                         </TextField>
-                        <DatePicker prefHeight="30.0" prefWidth="151.0" style="-fx-font-size: 17;">
+                        <DatePicker fx:id="historyDate" prefHeight="30.0" prefWidth="151.0" style="-fx-font-size: 17;">
                             <VBox.margin>
                                 <Insets bottom="10.0" />
                             </VBox.margin>
                         </DatePicker>
-                        <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="151.0" style="-fx-background-color: #d3a625;" text="SAVE" textFill="#f7f7f7">
+                        <Button fx:id="saveButton" mnemonicParsing="false" onAction="#onSaveButtonClick" prefHeight="30.0" prefWidth="151.0" style="-fx-background-color: #d3a625;" text="SAVE" textFill="#f7f7f7">
                             <font>
                                 <Font name="System Bold" size="17.0" />
                             </font>
@@ -100,7 +108,7 @@
                         <Font name="System Bold" size="18.0" />
                     </font>
                 </Text>
-                <TextArea layoutX="5.0" layoutY="278.0" prefHeight="318.0" prefWidth="622.0" promptText="content..." />
+                <TextArea fx:id="contentArea" layoutX="5.0" layoutY="278.0" prefHeight="318.0" prefWidth="622.0" promptText="content..." />
                 <Text fill="#3b5998" layoutX="5.0" layoutY="271.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Content">
                     <font>
                         <Font name="System Bold" size="18.0" />

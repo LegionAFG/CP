@@ -5,12 +5,12 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.logging.Logger;
 
-public class HistoriesCRUD {
+public class HistoryCRUD {
 
-    Logger logger = Logger.getLogger(HistoriesCRUD.class.getName());
+    Logger logger = Logger.getLogger(HistoryCRUD.class.getName());
     Connection connection;
 
-    public HistoriesCRUD(DatabaseConnection dbConnection) {
+    public HistoryCRUD(DatabaseConnection dbConnection) {
         this.connection = dbConnection.getConnection();
     }
 

@@ -185,7 +185,7 @@ public class ClientController {
 
         if (appointments == null || appointments.isEmpty()) {
 
-           navigateService.navigateClientId(stage,clientId);
+           navigateService.navigateClientIdAppointment(stage,clientId);
            return;
         }
 
@@ -203,9 +203,9 @@ public class ClientController {
 
     @FXML
     public void onHistoriesButtonClick(ActionEvent event) {
-
+        String clientId = clientID.getText();
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        navigateService.navigate(stage, "histories");
+        navigateService.navigateClientIdHistoy(stage,clientId);
 
     }
     @FXML

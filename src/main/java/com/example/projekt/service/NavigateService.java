@@ -2,6 +2,7 @@ package com.example.projekt.service;
 
 import com.example.projekt.controller.AppointmentController;
 import com.example.projekt.controller.ClientController;
+import com.example.projekt.controller.HistoryController;
 import com.example.projekt.model.Appointment;
 import com.example.projekt.model.Client;
 import javafx.collections.ObservableList;
@@ -26,7 +27,7 @@ public class NavigateService {
     private static final String FILE = "/com/example/projekt/File.fxml";
     private static final String APPOINTMENT = "/com/example/projekt/Appointment.fxml";
     private static final String CLIENT = "/com/example/projekt/Client.fxml";
-    private static final String HISTORIES = "/com/example/projekt/Histories.fxml";
+    private static final String HISTORY = "/com/example/projekt/History.fxml";
 
     public void navigate(Stage stage, String page) {
         try {
@@ -36,7 +37,7 @@ public class NavigateService {
                 case "file" -> FILE;
                 case "appointment" -> APPOINTMENT;
                 case "client" -> CLIENT;
-                case "histories" -> HISTORIES;
+                case "histories" -> HISTORY;
                 default -> throw new IllegalArgumentException("Unbekannte Seite: " + page);
             };
 
@@ -59,7 +60,7 @@ public class NavigateService {
 
     }
 
-    public void navigateClientId(Stage stage,String id) {
+    public void navigateClientIdAppointment(Stage stage, String id) {
         try {
 
             FXMLLoader fxmlLoader = new FXMLLoader(NavigateService.class.getResource(APPOINTMENT));
@@ -67,6 +68,33 @@ public class NavigateService {
             Scene scene = new Scene(fxmlLoader.load(), 800, 600);
 
             AppointmentController controller = fxmlLoader.getController();
+
+            controller.setClientId(id);
+
+            stage.setTitle("Case Pilot");
+            stage.setScene(scene);
+            stage.show();
+            stage.setResizable(false);
+
+        } catch (IllegalArgumentException e) {
+
+            logger.severe("Navigation fehlgeschlagen: " + e.getMessage());
+            showErrorDialog("Navigation fehlgeschlagen", e.getMessage());
+        } catch (IOException e) {
+
+            logger.severe("Fehler beim Laden der Seite: " + e.getMessage());
+            showErrorDialog("Seitenladefehler", "Die Seite konnte nicht geladen werden.");
+        }
+    }
+
+    public void navigateClientIdHistoy(Stage stage, String id) {
+        try {
+
+            FXMLLoader fxmlLoader = new FXMLLoader(NavigateService.class.getResource(HISTORY));
+
+            Scene scene = new Scene(fxmlLoader.load(), 800, 600);
+
+            HistoryController controller = fxmlLoader.getController();
 
             controller.setClientId(id);
 

@@ -17,7 +17,7 @@ public class DatabaseConnection {
                     "&serverTimezone=UTC";
 
     private static final String DB_USER = "root";
-    private static final String DB_PASSWORD = "123456789";
+    private static final String DB_PASSWORD = "docker2023";
 
     public void connectToDatabase() {
         try {

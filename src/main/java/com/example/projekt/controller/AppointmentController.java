@@ -126,7 +126,7 @@ public class AppointmentController {
         }
 
         if (!timeAppointment.matches(TIME_PATTERN)) {
-            alertService.showErrorAlert("Time format invalid. It has to be HH:MM.");
+            alertService.showErrorAlert("Time format invalid. Use HH:MM.");
             return;
         }
 
@@ -178,11 +178,11 @@ public class AppointmentController {
         boolean isDeleted = appointmentCRUD.deleteAppointment(selectedAppointment.getAppointmentId());
 
         if (isDeleted) {
-            alertService.showInfoAlert("Der Termin wurde erfolgreich gelöscht.");
+            alertService.showInfoAlert("The appointment was successfully deleted.");
             refreshAppointmentList();
             clearField();
         } else {
-            alertService.showErrorAlert("Fehler beim Löschen des Termins. Bitte versuchen Sie es erneut.");
+            alertService.showErrorAlert("Error deleting appointment. Please try again.");
         }
 
     }
