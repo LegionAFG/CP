@@ -1,9 +1,11 @@
 package com.example.projekt.controller;
 
+import com.example.projekt.model.History;
 import com.example.projekt.service.AlertService;
 import com.example.projekt.service.NavigateService;
 import com.example.projekt.sql.DatabaseConnection;
 import com.example.projekt.sql.HistoryCRUD;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.fxml.FXML;
@@ -57,6 +59,8 @@ public class HistoryController {
     TextField clintIdTextFiled;
 
 
+
+
     @FXML
     public void onBackButtonClick(ActionEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -98,4 +102,17 @@ public class HistoryController {
         historiesCRUD.insertHistories(id, date, LocalTime.parse(time), title, content);
     }
 
-}
+    public void setHistoryDetails(History history){
+
+       clintIdTextFiled.setText(String.valueOf(history.getClientId()));
+        historyDate.setValue(history.getHistoryDate());
+        historyTime.setText(String.valueOf(history.getHistoryTime()));
+        titleField.setText(history.getTitle());
+
+        ObservableList<History> histories = historiesCRUD.getHistoryByClientId(clintIdTextFiled.getText());
+
+
+        }
+    }
+
+

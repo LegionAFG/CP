@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projekt.controller.ClientController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projekt.controller.ClientController">
     <left>
         <AnchorPane prefHeight="530.0" prefWidth="168.0" style="-fx-background-color: #3b5998;" BorderPane.alignment="CENTER">
             <children>
@@ -116,11 +116,11 @@
     <center>
         <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #dfe3ee;" BorderPane.alignment="CENTER">
             <children>
-                <TableView layoutX="14.0" layoutY="29.0" prefHeight="248.0" prefWidth="378.0">
+                <TableView fx:id="historyTableView" layoutX="14.0" layoutY="29.0" prefHeight="248.0" prefWidth="378.0">
                     <columns>
-                        <TableColumn prefWidth="75.0" text="Date" />
-                        <TableColumn prefWidth="75.0" text="Time" />
-                        <TableColumn prefWidth="221.60009765625" text="Titel" />
+                        <TableColumn fx:id="historyDateTableColumn" prefWidth="75.0" text="Date" />
+                        <TableColumn fx:id="historyTimeTableColumn" prefWidth="75.0" text="Time" />
+                        <TableColumn fx:id="historyTitleTableColumn" prefWidth="221.60009765625" text="Titel" />
                     </columns>
                 </TableView>
                 <TableView fx:id="appointmentTableClient" layoutX="14.0" layoutY="300.0" prefHeight="290.0" prefWidth="608.0">

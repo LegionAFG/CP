@@ -12,14 +12,15 @@ public class History {
     private String title;
     private String content;
 
-    public History(int historieId, int clientId, LocalTime historyTime, LocalDate historyDate, String title, String content) {
+    public History(int historieId, int clientId, LocalDate historyDate, LocalTime historyTime, String title, String content) {
         this.historieId = historieId;
         this.clientId = clientId;
-        this.historyTime = historyTime;
-        this.historyDate = historyDate;
+        this.historyTime = LocalTime.from(historyTime);
+        this.historyDate = LocalDate.from(historyDate);
         this.title = title;
         this.content = content;
     }
+
 
     public int getHistorieId() {
         return historieId;

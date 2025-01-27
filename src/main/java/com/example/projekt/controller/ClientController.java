@@ -3,12 +3,14 @@ package com.example.projekt.controller;
 
 import com.example.projekt.model.Appointment;
 import com.example.projekt.model.Client;
+import com.example.projekt.model.History;
 import com.example.projekt.service.AlertService;
 import com.example.projekt.service.IdService;
 import com.example.projekt.service.NavigateService;
 import com.example.projekt.sql.AppointmentCRUD;
 import com.example.projekt.sql.ClientCRUD;
 import com.example.projekt.sql.DatabaseConnection;
+import com.example.projekt.sql.HistoryCRUD;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -27,6 +29,7 @@ public class ClientController {
     ClientCRUD clientCRUD;
     DatabaseConnection dbConnection;
     AppointmentCRUD appointmentCRUD;
+    HistoryCRUD historyCRUD;
     IdService idService;
     AlertService alertService;
 
@@ -54,6 +57,7 @@ public class ClientController {
         this.dbConnection = new DatabaseConnection();
         this.navigateService = new NavigateService();
         this.alertService = new AlertService();
+        this.historyCRUD = new HistoryCRUD(dbConnection);
         this.clientCRUD = new ClientCRUD(dbConnection);
         this.appointmentCRUD = new AppointmentCRUD(dbConnection);
         this.idService = new IdService(clientCRUD);
@@ -90,6 +94,15 @@ public class ClientController {
 
     @FXML
     TableView<Appointment> appointmentTableClient;
+    @FXML
+    TableView<History> historyTableView;
+
+    @FXML
+    TableColumn<History,LocalDate> historyDateTableColumn;
+    @FXML
+    TableColumn<History,String> historyTimeTableColumn;
+    @FXML
+    TableColumn<History,String> historyTitleTableColumn;
 
     @FXML
     TableColumn<Appointment, String> appointmentStreetColumn;
@@ -153,6 +166,14 @@ public class ClientController {
             statusClientColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
 
             appointmentTableClient.setItems(appointmentList);
+
+            ObservableList<History> histories = historyCRUD.getHistoryByClientId(clientID.getText());
+
+            historyDateTableColumn.setCellValueFactory(new PropertyValueFactory<>("HistoryDate"));
+            historyTimeTableColumn.setCellValueFactory(new PropertyValueFactory<>("HistoryTime"));
+            historyTitleTableColumn.setCellValueFactory(new PropertyValueFactory<>("Title"));
+
+            historyTableView.setItems(histories);
         }
 
     }
